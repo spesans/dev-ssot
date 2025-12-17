@@ -7,7 +7,7 @@ tags: [typescript, standards, linting, testing, zod, ssot]
 last_updated: 2025-12-17
 ---
 
-# Topic: TypeScript Standard Set
+# TypeScript Standard Set
 
 ## Agent Contract
 
@@ -854,8 +854,8 @@ async function good(): Promise<void> {
 
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 
-- **2025-12-17T00:00:00Z** – Major revision: updated to ESLint v9 flat config, `typescript-eslint` meta package + typed presets, Node 24 + pnpm-first CI, clarified tsconfig profiles (`verbatimModuleSyntax`), added IO boundary type-sanitization pattern, and fixed SSOT self-validation guidance. (Author: SSOT Admin)
-- **2025-11-24T00:00:00Z** – Initial TypeScript standard set published. (Author: SSOT Admin)
+- **2025-12-17T00:00:00Z** – Major revision: updated to ESLint v9 flat config, `typescript-eslint` meta package + typed presets, Node 24 + pnpm-first CI, clarified tsconfig profiles (`verbatimModuleSyntax`), added IO boundary type-sanitization pattern, and fixed SSOT self-validation guidance. (Author: SpeSan)
+- **2025-11-24T00:00:00Z** – Initial TypeScript standard set published. (Author: SpeSan)
 
 ---
 
@@ -886,5 +886,5 @@ async function good(): Promise<void> {
 ---
 
 **Document ID**: `docs/TYPESCRIPT_SET.md`
-**Canonical URL**: `https://github.com/artificial-intelligence-first/ssot/blob/main/docs/TYPESCRIPT_SET.md`
+**Canonical URL**: `https://github.com/spesans/dev-ssot/blob/main/docs/TYPESCRIPT_SET.md`
 **License**: MIT

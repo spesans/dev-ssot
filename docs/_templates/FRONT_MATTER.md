@@ -1,11 +1,24 @@
 ---
+title: Front Matter Guide
+slug: front-matter-guide
+summary: "YAML frontmatter requirements"
+type: reference
+tags: [template, frontmatter, ssot]
+last_updated: 2025-12-17
+---
+
+# Front Matter Guide
+
+```yaml
+---
 title: Topic Name
 slug: topic-name
 summary: "Short doc label (<50 chars)."
-type: one of [spec, guide, reference, policy, concept]
+type: spec
 tags: [tag1, tag2, tag3]
-last_updated: YYYY-MM-DD
+last_updated: 2025-12-17
 ---
+```
 
 ## Usage Rules
 

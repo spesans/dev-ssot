@@ -1,5 +1,5 @@
 ---
-title: AGENTS.md and README.md
+title: README & AGENTS Patterns
 slug: agents-readme
 summary: "Guide for implementing README and AGENTS documentation patterns"
 type: guide
@@ -7,7 +7,7 @@ tags: [topic, ai-first, documentation, agents, readme, repository-structure]
 last_updated: 2025-12-17
 ---
 
-# Topic: AGENTS.md and README.md
+# README & AGENTS Patterns
 
 ## Agent Contract
 
@@ -648,7 +648,7 @@ jobs:
 ## Update Log
 
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
-- **2025-12-17** – Major revision to align with the open `AGENTS.md` standard (instructions-first). Re-defined `AGENTS.md` as “README for agents”, moved catalogs to an optional runtime registry extension, added explicit precedence/inheritance rules, refreshed templates (copy-paste safe fences), updated CI examples (`actions/checkout@v6`), and refreshed references. (Author: SSOT Maintainer)
+- **2025-12-17** – Major revision to align with the open `AGENTS.md` standard (instructions-first). Re-defined `AGENTS.md` as “README for agents”, moved catalogs to an optional runtime registry extension, added explicit precedence/inheritance rules, refreshed templates (copy-paste safe fences), updated CI examples (`actions/checkout@v6`), and refreshed references. (Author: SpeSan)
 - **2025-11-22** – Refined templates based on peer review. Added `Triggers`, `Implementation`, `Security`, and `Observability` fields to AGENTS.md template. Fixed README.md code block syntax. Clarified document purpose as a guide. (Author: SpeSan)
 - **2025-11-19** – Added comprehensive CI/CD Automation section with validation workflows, automated agent extraction from code, and validation scripts. Added Migration Guide with phased approach for converting existing projects to README/AGENTS structure. (Author: SpeSan)
 - **2025-11-17** – Updated AGENTS.md basic structure section to include Primary Directive as the first section, providing repository-wide behavior rules for all autonomous agents. Reorganized structure documentation for clarity. (Author: SpeSan)
@@ -692,7 +692,7 @@ jobs:
 ---
 
 **Document ID**: `agents-readme-guide-v2`
-**Canonical URL**: `https://github.com/artificial-intelligence-first/ssot/blob/main/docs/README_AGENTS.md`
+**Canonical URL**: `https://github.com/spesans/dev-ssot/blob/main/docs/README_AGENTS.md`
 **Version**: 2.0.0
 **License**: MIT
 **Maintained By**: Repository documentation team

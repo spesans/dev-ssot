@@ -1,13 +1,15 @@
 ---
-title: Topic Name
-slug: topic-name
-summary: "Short doc label (<50 chars)."
-type: spec
-tags: [topic, ai-first, tag1, tag2]
-last_updated: YYYY-MM-DD
+title: Topic Template
+slug: topic-template
+summary: "11-section SSOT topic template"
+type: reference
+tags: [template, ai-first, topic]
+last_updated: 2025-12-17
 ---
 
-# Topic: [TOPIC_NAME]
+# Topic Template
+
+> Copy this file to create a new topic, then replace the frontmatter and this H1 with your topic title.
 
 ## Agent Contract
 
@@ -207,5 +209,5 @@ last_updated: YYYY-MM-DD
 ---
 
 **Document ID**: `[directory]/[filename]`
-**Canonical URL**: `https://github.com/artificial-intelligence-first/ssot/blob/main/[directory]/[filename].md`
+**Canonical URL**: `https://github.com/spesans/dev-ssot/blob/main/[directory]/[filename].md`
 **License**: MIT

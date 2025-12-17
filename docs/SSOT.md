@@ -12,7 +12,9 @@ agent_instruction_file: /AGENTS.md
 last_updated: 2025-12-17
 ---
 
-# Topic: Single Source of Truth (SSOT) — Architecture and Governance
+# Single Source of Truth (SSOT)
+
+> Architecture and Governance
 
 > **Note (Determinism)**: In this repository, `docs/SSOT.md` is the authoritative SSOT for SSOT governance terms and normative keywords. In adopter repositories, you MUST declare exactly one "Project SSOT" path (RECOMMENDED: `/SSOT.md`) and ensure `AGENTS.md` / `README.md` link to it. If you keep this governance guide under `docs/`, rename it (e.g., `docs/SSOT_GOVERNANCE.md`) to avoid confusing it with the Project SSOT.
 
@@ -554,7 +556,7 @@ jobs:
 ## Update Log
 
 - 2025-12-17 Docs(ssot): Rebranded to SpeSan and performed final content check. (Author: SpeSan)
-- 2025-12-17T11:46:50Z docs(ssot): Refresh for 2025: resolve placement ambiguity, adopt BCP 14, modernize CI example (actions/checkout v6 + SHA pinning), clarify Data Contracts (OpenAPI 3.1 / JSON Schema), add deterministic agent templates. (Author: SSOT Admin)
+- 2025-12-17T11:46:50Z docs(ssot): Refresh for 2025: resolve placement ambiguity, adopt BCP 14, modernize CI example (actions/checkout v6 + SHA pinning), clarify Data Contracts (OpenAPI 3.1 / JSON Schema), add deterministic agent templates. (Author: SpeSan)
 - 2025-11-24T00:00:00Z docs(ssot): Metadata refresh and minor clarifications. (Author: SpeSan)
 - 2025-11-22T00:00:00Z docs(ssot): Integrated AI peer review feedback: Agent-Specific Behavior, Security Protocol, glossary template, telemetry fields; clarified guide vs project SSOT. (Author: SpeSan)
 - 2025-11-19T00:00:00Z docs(ssot): Initial comprehensive guide structure integrating definitions, patterns, and evaluation metrics. (Author: SpeSan)
@@ -607,5 +609,5 @@ jobs:
 ---
 
 **Document ID**: `docs/SSOT.md`
-**Canonical URL**: `https://github.com/artificial-intelligence-first/ssot/blob/main/docs/SSOT.md`
+**Canonical URL**: `https://github.com/spesans/dev-ssot/blob/main/docs/SSOT.md`
 **License**: MIT

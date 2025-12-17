@@ -1,10 +1,10 @@
-site_name: SpeSan SSOT
-site_description: Single Source of Truth for AI-first development - Vendor-neutral specifications for AI agents and developers
-site_url: https://artificial-intelligence-first.github.io/ssot/
-repo_name: artificial-intelligence-first/ssot
-repo_url: https://github.com/artificial-intelligence-first/ssot
+site_name: SSOT for AI-First Development
+site_description: Single Source of Truth for AI-First Development - Vendor-neutral specifications for AI agents and developers
+site_url: https://spesans.github.io/dev-ssot/
+repo_name: spesans/dev-ssot
+repo_url: https://github.com/spesans/dev-ssot
 edit_uri: edit/main/docs/
-copyright: Copyright &copy; 2025 SpeSan
+copyright: Copyright (c) 2025 SpeSan
 
 docs_dir: docs
 
@@ -108,7 +108,7 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/artificial-intelligence-first/ssot
+      link: https://github.com/spesans/dev-ssot
       name: SSOT on GitHub
   generator: false
   analytics:
@@ -129,8 +129,8 @@ plugins:
 nav:
   - Home: index.md
   - Getting Started:
-      - Overview: SSOT.md
-      - Agent Catalog: AGENTS.md
+      - Single Source of Truth (SSOT): SSOT.md
+      - Agents Catalog: AGENTS.md
   - Specifications:
       - Universal Agent Skill: AGENT_SKILL.md
       - Exec Plan: EXEC_PLAN.md
@@ -141,5 +141,5 @@ nav:
 
   - Templates:
       - Topic Template: _templates/TOPIC_TEMPLATE.md
-      - Section Template: _templates/SECTION_TEMPLATE.md
+      - Section Templates: _templates/SECTION_TEMPLATE.md
       - Front Matter Guide: _templates/FRONT_MATTER.md

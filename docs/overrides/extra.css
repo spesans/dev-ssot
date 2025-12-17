@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SpeSan SSOT - Minimal Monochrome Design
+   SSOT for AI-First Development - Minimal Monochrome Design
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -22,7 +22,7 @@
 
 [data-md-color-scheme="slate"] {
   /* Dark mode colors */
-  --ssot-bg: #0d0d0d;
+  --ssot-bg: #000000;
   --ssot-fg: #ffffff;
   --ssot-fg-muted: #999999;
   --ssot-border: #333333;
@@ -55,7 +55,7 @@
   --md-default-fg-color--lighter: #666666;
   --md-default-fg-color--lightest: var(--ssot-border);
   --md-primary-fg-color: #ffffff;
-  --md-primary-bg-color: #0d0d0d;
+  --md-primary-bg-color: #000000;
   --md-accent-fg-color: #888888;
   --md-typeset-a-color: var(--ssot-link);
   --md-code-bg-color: var(--ssot-code-bg);
@@ -114,7 +114,7 @@
 }
 
 /* Homepage hero - simple black text */
-.md-content__inner > h1:first-child {
+.md-content__inner>h1:first-child {
   font-size: 2.2em;
   margin-bottom: 0.5em;
   color: var(--ssot-fg);
@@ -153,7 +153,7 @@
 }
 
 [data-md-color-scheme="slate"] .md-header {
-  background-color: #0d0d0d;
+  background-color: #000000;
 }
 
 .md-header__title {
@@ -182,7 +182,7 @@
 }
 
 [data-md-color-scheme="slate"] .md-tabs {
-  background-color: #0d0d0d;
+  background-color: #000000;
 }
 
 .md-tabs__link {
@@ -221,7 +221,7 @@
   color: var(--ssot-fg);
 }
 
-.md-nav__item--active > .md-nav__link {
+.md-nav__item--active>.md-nav__link {
   color: var(--ssot-fg);
   font-weight: 600;
 }
@@ -263,7 +263,7 @@
   margin: 1em 0;
 }
 
-.md-typeset pre > code {
+.md-typeset pre>code {
   background-color: transparent;
   border-radius: 4px;
   font-size: 0.85em;
@@ -281,7 +281,7 @@
 }
 
 /* Code block title */
-.md-typeset .highlight > .filename {
+.md-typeset .highlight>.filename {
   background-color: var(--ssot-code-bg);
   border: 1px solid var(--ssot-border);
   border-bottom: none;
@@ -425,10 +425,24 @@
 .md-search__input {
   background-color: var(--ssot-code-bg);
   border: 1px solid var(--ssot-border);
+  color: var(--ssot-fg);
 }
 
 .md-search__input::placeholder {
   color: var(--ssot-fg-muted);
+}
+
+/* Fix search icon visibility - force to foreground color */
+.md-search__icon {
+  color: var(--ssot-fg-muted) !important;
+}
+
+.md-search__icon svg {
+  fill: currentColor;
+}
+
+.md-search__icon:hover {
+  color: var(--ssot-fg) !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -462,7 +476,7 @@
 }
 
 /* Consistent spacing between sections */
-.md-typeset > *:first-child {
+.md-typeset>*:first-child {
   margin-top: 0;
 }
 
@@ -482,6 +496,7 @@
    -------------------------------------------------------------------------- */
 
 @media print {
+
   .md-header,
   .md-tabs,
   .md-sidebar,
@@ -516,13 +531,13 @@
    -------------------------------------------------------------------------- */
 
 @media screen and (max-width: 76.1875em) {
-  .md-content__inner > h1:first-child {
+  .md-content__inner>h1:first-child {
     font-size: 1.8em;
   }
 }
 
 @media screen and (max-width: 44.9375em) {
-  .md-content__inner > h1:first-child {
+  .md-content__inner>h1:first-child {
     font-size: 1.5em;
   }
 

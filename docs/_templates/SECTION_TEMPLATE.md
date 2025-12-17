@@ -4,7 +4,7 @@ slug: section-templates
 summary: "Section Templates"
 type: reference
 tags: [template, ai-first]
-last_updated: YYYY-MM-DD
+last_updated: 2025-12-17
 ---
 
 # Section Templates

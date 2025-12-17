@@ -7,7 +7,9 @@ tags: [topic, ai-first, agent, skill, specification]
 last_updated: 2025-12-17
 ---
 
-# Topic: Universal Agent Skill — Universal Specification
+# Universal Agent Skill
+
+> Universal Specification
 
 ## Agent Contract
 
@@ -911,7 +913,7 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 ## Update Log
 
 - 2025-12-17 docs(skill): Rebranded to SpeSan and performed final content check. (Author: SpeSan)
-- 2025-12-17T00:00:00Z docs(skill): Major rewrite for 2025 portability: add explicit Host Profiles (Claude API/Code, MCP, OpenAI strict, Codex CLI), fix broken examples by switching to runnable-minimal/pseudocode-only, define tool source priority, normalize runtime/entrypoint rules, add machine-readable frontmatter/tools.json schemas. (Author: SSOT Admin)
+- 2025-12-17T00:00:00Z docs(skill): Major rewrite for 2025 portability: add explicit Host Profiles (Claude API/Code, MCP, OpenAI strict, Codex CLI), fix broken examples by switching to runnable-minimal/pseudocode-only, define tool source priority, normalize runtime/entrypoint rules, add machine-readable frontmatter/tools.json schemas. (Author: SpeSan)
 - 2025-12-09T00:00:00Z docs(skill): Updated specification to v2.0 (Unified Universal). Adopted `SKILL.md` as canonical manifest. Deprecated `skill.yaml` in favor of frontmatter + `tools.json`. (Author: SpeSan)
 - 2025-11-24T00:00:00Z docs(skill): Fixed Update Log date inconsistencies. (Author: SpeSan)
 - 2025-11-22T00:00:00Z docs(skill): Refined specification based on multi-agent review. Added schema, secrets, runtime protocol, and composition guidance. (Author: SpeSan)
@@ -958,5 +960,5 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 ---
 
 **Document ID**: `docs/AGENT_SKILL.md`
-**Canonical URL**: `https://github.com/artificial-intelligence-first/ssot/blob/main/docs/AGENT_SKILL.md`
+**Canonical URL**: `https://github.com/spesans/dev-ssot/blob/main/docs/AGENT_SKILL.md`
 **License**: MIT

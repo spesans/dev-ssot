@@ -7,7 +7,9 @@ tags: [topic, ai-first, agent, mcp, code, optimization]
 last_updated: 2025-12-17
 ---
 
-# Topic: Code MCP — Model-Agnostic Code Execution for MCP Integrations
+# Code MCP
+
+> Model-Agnostic Code Execution for MCP Integrations
 
 ## Agent Contract
 
@@ -856,5 +858,5 @@ MCP governance is documented publicly, including stewardship under LF Projects, 
 ---
 
 **Document ID**: `docs/CODE_MCP.md`
-**Canonical URL**: `https://github.com/artificial-intelligence-first/ssot/blob/main/docs/CODE_MCP.md`
+**Canonical URL**: `https://github.com/spesans/dev-ssot/blob/main/docs/CODE_MCP.md`
 **License**: MIT

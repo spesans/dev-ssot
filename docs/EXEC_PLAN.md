@@ -7,7 +7,9 @@ tags: [topic, ai-first, agent, planning, execution, model-agnostic, mcp, a2a, to
 last_updated: 2025-12-17
 ---
 
-# Topic: Exec Plan — Model-Agnostic Execution Planning
+# Exec Plan
+
+> Model-Agnostic Execution Planning
 
 ## Agent Contract
 
@@ -896,10 +898,10 @@ Next Action: <...>
 ## Update Log
 
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
-- **2025-12-17T00:00:00Z** – Major revision: added non-negotiable requirements, compatibility profiles, MCP/A2A integration, context snapshot guidance, explicit tool governance, stricter timestamp rules, updated schema with Validation vs Concrete Steps split, and copy-pastable templates. (Author: doc-maintainer)
+- **2025-12-17T00:00:00Z** – Major revision: added non-negotiable requirements, compatibility profiles, MCP/A2A integration, context snapshot guidance, explicit tool governance, stricter timestamp rules, updated schema with Validation vs Concrete Steps split, and copy-pastable templates. (Author: SpeSan)
 - **2025-11-22T00:00:00Z** – Refined specification based on peer review. Added Standard ExecPlan Schema and clarified revision protocols. (Author: SpeSan)
 - **2025-11-19T00:00:00Z** – Added multi-agent coordination and plan revision workflow patterns. (Author: SpeSan)
-- **2025-11-16T00:00:00Z** – Initial document creation based on PLANS.md-style guidance. (Author: Claude)
+- **2025-11-16T00:00:00Z** – Initial document creation based on PLANS.md-style guidance. (Author: SpeSan)
 
 ---
 
@@ -936,5 +938,5 @@ Next Action: <...>
 ---
 
 **Document ID**: `docs/EXEC_PLAN.md`
-**Canonical URL**: `https://github.com/artificial-intelligence-first/ssot/blob/main/docs/EXEC_PLAN.md`
+**Canonical URL**: `https://github.com/spesans/dev-ssot/blob/main/docs/EXEC_PLAN.md`
 **License**: MIT

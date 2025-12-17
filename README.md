@@ -5,14 +5,14 @@
 A centralized repository managing structured knowledge documents optimized for both AI agents and human developers.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg)](https://artificial-intelligence-first.github.io/ssot/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/artificial-intelligence-first/ssot/pulls)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg)](https://spesans.github.io/dev-ssot/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/spesans/dev-ssot/pulls)
 
 ---
 
 ## Overview
 
-This repository establishes a **Single Source of Truth (SSOT)** for AI-first development practices, providing canonical documentation that serves as the authoritative reference for both autonomous agents and development teams.
+This repository establishes a **Single Source of Truth (SSOT)** for AI-First Development, providing canonical documentation that serves as the authoritative reference for both autonomous agents and development teams.
 
 Each document follows a rigorous **11-section structure** designed to eliminate ambiguity and ensure consistency across all knowledge artifacts.
 
@@ -29,14 +29,13 @@ Each document follows a rigorous **11-section structure** designed to eliminate 
 
 ```bash
 # Clone the repository
-git clone https://github.com/artificial-intelligence-first/ssot.git
-cd ssot
+git clone https://github.com/spesans/dev-ssot.git
+cd dev-ssot
 
-# View documentation locally
-python -m http.server 8000 --directory site/
-
-# Or use MkDocs for development
+# Install docs dependencies
 pip install -r requirements-docs.txt
+
+# Serve docs locally
 mkdocs serve
 ```
 
@@ -61,14 +60,14 @@ cp docs/_templates/TOPIC_TEMPLATE.md docs/YOUR_TOPIC.md
 | [**CODE_MCP.md**](./docs/CODE_MCP.md) | Model Context Protocol implementation guide | Reference |
 | [**EXEC_PLAN.md**](./docs/EXEC_PLAN.md) | AI-driven task planning methodology | Spec |
 | [**TYPESCRIPT_SET.md**](./docs/TYPESCRIPT_SET.md) | TypeScript configuration standards | Spec |
-| [**README_AGENTS.md**](./docs/README_AGENTS.md) | Documentation patterns for AI-first repos | Guide |
+| [**README_AGENTS.md**](./docs/README_AGENTS.md) | Documentation patterns for AI-First repos | Guide |
 
 ---
 
 ## Repository Structure
 
 ```
-ssot/
+dev-ssot/
 ├── docs/                           # Core documentation
 │   ├── SSOT.md                    # Governance guide
 │   ├── AGENT_SKILL.md             # Universal agent skill specification
@@ -181,7 +180,7 @@ See [AGENTS.md](./AGENTS.md) for the full agent catalog and routing rules.
 
 ## Related Links
 
-- [Documentation Site](https://artificial-intelligence-first.github.io/ssot/)
+- [Documentation Site](https://spesans.github.io/dev-ssot/)
 - [AGENTS.md Specification](https://agents.md)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 

@@ -22,8 +22,7 @@ def rewrite_links(name: str, content: str) -> str:
     if name == "index.md":
         content = content.replace("./docs/", "")
         content = content.replace("./_templates/", "_templates/")
-        content = content.replace("docs/_templates/", "_templates/") # Handle the new location link if user wrote it relative to root
-        content = content.replace("./LICENSE", "https://github.com/artificial-intelligence-first/ssot/blob/main/LICENSE")
+        content = content.replace("./LICENSE", "https://github.com/spesans/dev-ssot/blob/main/LICENSE")
     if name == "AGENTS.md":
         content = content.replace("./docs/", "")
         content = content.replace("./README.md", "index.md")
@@ -35,3 +34,4 @@ for target, source_path in SOURCES.items():
     text = rewrite_links(target, text)
     with mkdocs_gen_files.open(target, "w") as dest:
         dest.write(text)
+    mkdocs_gen_files.set_edit_path(target, source_path)
