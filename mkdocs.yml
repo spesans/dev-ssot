@@ -1,0 +1,145 @@
+site_name: AI-First SSOT
+site_description: Single Source of Truth for AI-first development - Vendor-neutral specifications for AI agents and developers
+site_url: https://artificial-intelligence-first.github.io/ssot/
+repo_name: artificial-intelligence-first/ssot
+repo_url: https://github.com/artificial-intelligence-first/ssot
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; 2025 AI-First Development Team
+
+docs_dir: docs
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.progress
+    - toc.integrate
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - search.suggest
+    - search.highlight
+    - search.share
+    - announce.dismiss
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: grey
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
+
+markdown_extensions:
+  - admonition
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: ""
+      toc_depth: 3
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      auto_title: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/artificial-intelligence-first/ssot
+      name: SSOT on GitHub
+  generator: false
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+
+extra_css:
+  - overrides/extra.css
+
+plugins:
+  - gen-files:
+      scripts:
+        - tools/gen_docs.py
+  - search:
+      lang: en
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Overview: SSOT.md
+      - Agent Catalog: AGENTS.md
+  - Specifications:
+      - Universal Agent Skill: AGENT_SKILL.md
+      - Exec Plan: EXEC_PLAN.md
+      - TypeScript Standard Set: TYPESCRIPT_SET.md
+  - Guides:
+      - Code MCP: CODE_MCP.md
+      - README & AGENTS Patterns: README_AGENTS.md
+
+  - Templates:
+      - Topic Template: _templates/TOPIC_TEMPLATE.md
+      - Section Template: _templates/SECTION_TEMPLATE.md
+      - Front Matter Guide: _templates/FRONT_MATTER.md
