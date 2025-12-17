@@ -647,12 +647,13 @@ jobs:
 
 ## Update Log
 
+- **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - **2025-12-17** – Major revision to align with the open `AGENTS.md` standard (instructions-first). Re-defined `AGENTS.md` as “README for agents”, moved catalogs to an optional runtime registry extension, added explicit precedence/inheritance rules, refreshed templates (copy-paste safe fences), updated CI examples (`actions/checkout@v6`), and refreshed references. (Author: SSOT Maintainer)
-- **2025-11-22** – Refined templates based on peer review. Added `Triggers`, `Implementation`, `Security`, and `Observability` fields to AGENTS.md template. Fixed README.md code block syntax. Clarified document purpose as a guide. (Author: AI-First)
-- **2025-11-19** – Added comprehensive CI/CD Automation section with validation workflows, automated agent extraction from code, and validation scripts. Added Migration Guide with phased approach for converting existing projects to README/AGENTS structure. (Author: AI-First)
-- **2025-11-17** – Updated AGENTS.md basic structure section to include Primary Directive as the first section, providing repository-wide behavior rules for all autonomous agents. Reorganized structure documentation for clarity. (Author: AI-First)
-- **2025-11-15** – Initial document creation based on AGENTS.md spec, README best practices, and AI-first architecture patterns. (Author: AI-First)
-- **2025-11-14** – Standardized Agent Contract and TL;DR sections for consistency with other SSOT documents. Updated canonical URL for renamed file. (Author: AI-First)
+- **2025-11-22** – Refined templates based on peer review. Added `Triggers`, `Implementation`, `Security`, and `Observability` fields to AGENTS.md template. Fixed README.md code block syntax. Clarified document purpose as a guide. (Author: SpeSan)
+- **2025-11-19** – Added comprehensive CI/CD Automation section with validation workflows, automated agent extraction from code, and validation scripts. Added Migration Guide with phased approach for converting existing projects to README/AGENTS structure. (Author: SpeSan)
+- **2025-11-17** – Updated AGENTS.md basic structure section to include Primary Directive as the first section, providing repository-wide behavior rules for all autonomous agents. Reorganized structure documentation for clarity. (Author: SpeSan)
+- **2025-11-15** – Initial document creation based on AGENTS.md spec, README best practices, and AI-first architecture patterns. (Author: SpeSan)
+- **2025-11-14** – Standardized Agent Contract and TL;DR sections for consistency with other SSOT documents. Updated canonical URL for renamed file. (Author: SpeSan)
 
 ---
 

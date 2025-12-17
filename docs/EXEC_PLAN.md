@@ -895,9 +895,10 @@ Next Action: <...>
 
 ## Update Log
 
+- **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - **2025-12-17T00:00:00Z** – Major revision: added non-negotiable requirements, compatibility profiles, MCP/A2A integration, context snapshot guidance, explicit tool governance, stricter timestamp rules, updated schema with Validation vs Concrete Steps split, and copy-pastable templates. (Author: doc-maintainer)
-- **2025-11-22T00:00:00Z** – Refined specification based on peer review. Added Standard ExecPlan Schema and clarified revision protocols. (Author: AI-First)
-- **2025-11-19T00:00:00Z** – Added multi-agent coordination and plan revision workflow patterns. (Author: AI-First)
+- **2025-11-22T00:00:00Z** – Refined specification based on peer review. Added Standard ExecPlan Schema and clarified revision protocols. (Author: SpeSan)
+- **2025-11-19T00:00:00Z** – Added multi-agent coordination and plan revision workflow patterns. (Author: SpeSan)
 - **2025-11-16T00:00:00Z** – Initial document creation based on PLANS.md-style guidance. (Author: Claude)
 
 ---

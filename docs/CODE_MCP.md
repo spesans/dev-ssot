@@ -807,12 +807,13 @@ MCP governance is documented publicly, including stewardship under LF Projects, 
 
 ## Update Log
 
-- **2025-12-17** – Major rewrite: added a normative Runtime Contract, aligned wrapper/codegen with MCP 2025-11-25 (`inputSchema`/`outputSchema`, tool results, tool naming, list_changed), removed `docker.sock` guidance, added OAuth 2.1 authorization and governance references. (Author: AI-First)
-- **2025-11-24** – Fixed Update Log date inconsistencies. (Author: AI-First)
-- **2025-11-22** – Updated based on peer review: added System Prompt Design and Self-Correction Loop patterns, clarified OS-level sandbox requirements, added warm pool and debug replay checklists. (Author: AI-First)
-- **2025-11-19** – Enhanced Sandbox-Based Execution pattern with complete Docker implementation, security profiles, and Python wrapper. Added TypeScript stub generation implementation with full type mapping and CLI tooling. (Author: AI-First)
-- **2025-11-14** – Added Practical Examples section with document processing and data analysis pipeline examples. Updated metadata. (Author: AI-First)
-- **2025-11-13** – Initial specification created covering Code MCP architecture, implementation patterns, progressive disclosure, sandbox execution, security practices, and cost optimization strategies. (Author: AI-First)
+- **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
+- **2025-12-17** – Major rewrite: added a normative Runtime Contract, aligned wrapper/codegen with MCP 2025-11-25 (`inputSchema`/`outputSchema`, tool results, tool naming, list_changed), removed `docker.sock` guidance, added OAuth 2.1 authorization and governance references. (Author: SpeSan)
+- **2025-11-24** – Fixed Update Log date inconsistencies. (Author: SpeSan)
+- **2025-11-22** – Updated based on peer review: added System Prompt Design and Self-Correction Loop patterns, clarified OS-level sandbox requirements, added warm pool and debug replay checklists. (Author: SpeSan)
+- **2025-11-19** – Enhanced Sandbox-Based Execution pattern with complete Docker implementation, security profiles, and Python wrapper. Added TypeScript stub generation implementation with full type mapping and CLI tooling. (Author: SpeSan)
+- **2025-11-14** – Added Practical Examples section with document processing and data analysis pipeline examples. Updated metadata. (Author: SpeSan)
+- **2025-11-13** – Initial specification created covering Code MCP architecture, implementation patterns, progressive disclosure, sandbox execution, security practices, and cost optimization strategies. (Author: SpeSan)
 
 ---
 

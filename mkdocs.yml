@@ -1,10 +1,10 @@
-site_name: AI-First SSOT
+site_name: SpeSan SSOT
 site_description: Single Source of Truth for AI-first development - Vendor-neutral specifications for AI agents and developers
 site_url: https://artificial-intelligence-first.github.io/ssot/
 repo_name: artificial-intelligence-first/ssot
 repo_url: https://github.com/artificial-intelligence-first/ssot
 edit_uri: edit/main/docs/
-copyright: Copyright &copy; 2025 AI-First Development Team
+copyright: Copyright &copy; 2025 SpeSan
 
 docs_dir: docs
 

@@ -1,4 +1,4 @@
-# AI-First SSOT
+# SSOT for AI-First Development
 
 **Single Source of Truth for AI-First Development**
 
@@ -193,4 +193,4 @@ MIT License - See [LICENSE](./LICENSE) for full terms.
 
 ---
 
-**Maintained by**: AI-First Development Team | **Last Updated**: 2025-11-25
+**Maintained by**: SpeSan | **Last Updated**: 2025-12-17

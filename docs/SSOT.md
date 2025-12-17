@@ -9,7 +9,7 @@ document_role: meta_governance
 primary_ssot_path: docs/SSOT.md
 recommended_project_ssot_path: /SSOT.md
 agent_instruction_file: /AGENTS.md
-last_updated: 2025-12-17T11:46:50Z
+last_updated: 2025-12-17
 ---
 
 # Topic: Single Source of Truth (SSOT) — Architecture and Governance
@@ -553,11 +553,12 @@ jobs:
 
 ## Update Log
 
+- 2025-12-17 Docs(ssot): Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - 2025-12-17T11:46:50Z docs(ssot): Refresh for 2025: resolve placement ambiguity, adopt BCP 14, modernize CI example (actions/checkout v6 + SHA pinning), clarify Data Contracts (OpenAPI 3.1 / JSON Schema), add deterministic agent templates. (Author: SSOT Admin)
-- 2025-11-24T00:00:00Z docs(ssot): Metadata refresh and minor clarifications. (Author: AI-First)
-- 2025-11-22T00:00:00Z docs(ssot): Integrated AI peer review feedback: Agent-Specific Behavior, Security Protocol, glossary template, telemetry fields; clarified guide vs project SSOT. (Author: AI-First)
-- 2025-11-19T00:00:00Z docs(ssot): Initial comprehensive guide structure integrating definitions, patterns, and evaluation metrics. (Author: AI-First)
-- 2025-11-01T00:00:00Z docs(ssot): Seed content based on Docs-as-Code and configuration best practices. (Author: AI-First)
+- 2025-11-24T00:00:00Z docs(ssot): Metadata refresh and minor clarifications. (Author: SpeSan)
+- 2025-11-22T00:00:00Z docs(ssot): Integrated AI peer review feedback: Agent-Specific Behavior, Security Protocol, glossary template, telemetry fields; clarified guide vs project SSOT. (Author: SpeSan)
+- 2025-11-19T00:00:00Z docs(ssot): Initial comprehensive guide structure integrating definitions, patterns, and evaluation metrics. (Author: SpeSan)
+- 2025-11-01T00:00:00Z docs(ssot): Seed content based on Docs-as-Code and configuration best practices. (Author: SpeSan)
 
 ---
 
