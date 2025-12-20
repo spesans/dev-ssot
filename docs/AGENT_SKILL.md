@@ -4,7 +4,7 @@ slug: agent-skill
 summary: "Skill spec overview"
 type: spec
 tags: [topic, ai-first, agent, skill, specification]
-last_updated: 2025-12-17
+last_updated: 2025-12-20
 ---
 
 # Universal Agent Skill
@@ -26,6 +26,7 @@ last_updated: 2025-12-17
   - You are implementing a host-specific feature that cannot reasonably be expressed as a portable skill (document it under the host’s own spec instead)
 - **PRIORITY**:
   - Normative requirement keywords (MUST/SHOULD/MAY) follow `docs/SSOT.md` (BCP 14) and are interpreted only when capitalized
+  - The baseline `SKILL.md` format follows the open Agent Skills standard (agentskills.io). [R11]
   - This spec separates:
     - **Normative Specification**: Universal requirements intended to be host-agnostic
     - **Host Profiles**: Host facts and constraints (with primary-source links)
@@ -41,16 +42,17 @@ In this repository, responsibilities for applying this specification are assigne
 
 ## TL;DR
 
-- **WHAT**: A **Skill** is a folder with a required `SKILL.md` (YAML frontmatter + Markdown body) plus optional tools, scripts, templates, and tests.
+- **WHAT**: A **Skill** is a folder with a required `SKILL.md` (YAML frontmatter + Markdown body) plus optional scripts, references, and assets. [R11]
 - **WHY**: Skills encode reusable procedures and tool contracts with **progressive disclosure** (metadata first, detail on-demand) to improve reliability and reduce context overhead.
 - **HOW (Canonical)**:
-  - **Source of truth** is `SKILL.md` frontmatter (including `tools`)
-  - **Tool contracts** use **JSON Schema 2020-12**
-  - **`tools.json` is optional** and treated as a derived/interop artifact
+  - **Source of truth** is `SKILL.md` frontmatter (`name`, `description`) + Markdown body (Agent Skills standard). [R11]
+  - **Progressive disclosure**: load metadata at discovery, load instructions/resources only when activated. [R11], [R12]
+  - **Tool contracts** (`tools` / `tools.json`) are OPTIONAL extensions for tool-enabled adapters and use **JSON Schema 2020-12**. [R7]
 - **HOST REALITY**:
   - **Claude API Skills** are attached via `container.skills` and have hard limits (e.g., max 8 skills/request, 8MB upload) [R2]
   - **OpenAI Structured Outputs** and tool calling can enforce schemas with `strict: true` [R5]
   - **MCP** is a tool connectivity protocol (not a skill format) and maps via a stable schema translation (`input_schema` → `inputSchema`) [R4]
+  - **Codex Agent Skills** are discovered from repo/user/admin/system scopes and can be invoked explicitly or implicitly. [R12]
 - **WATCH_OUT**:
   - Do not ship broken examples (SSOT risk): examples must be runnable-minimal or explicitly “pseudocode”
   - Avoid “runtime: node + .ts entrypoint” unless the host explicitly provides a TypeScript runner (default Node cannot execute TS)
@@ -67,11 +69,11 @@ In this repository, responsibilities for applying this specification are assigne
 **Scope**:
 - **Includes**:
   - `SKILL.md` (required): YAML frontmatter (machine-readable) + Markdown instructions (model-readable)
-  - Optional implementations under `scripts/` and optional supporting files (`templates/`, `tests/`, etc.)
+  - Optional implementations under `scripts/` and optional supporting files (`references/`, `assets/`, `tests/`, etc.)
 - **Excludes**:
   - Host-locked configuration that cannot be expressed as `host_overrides`
 
-**Sources**: [R1], [R2]
+**Sources**: [R11]
 
 ### Skill Manifest (`SKILL.md`)
 
@@ -82,17 +84,17 @@ In this repository, responsibilities for applying this specification are assigne
 - MUST begin with YAML frontmatter delimited by `---`
 - MUST contain a Markdown body that can be injected/loaded on demand by the host
 
-**Sources**: [R1], [R2], [R3]
+**Sources**: [R11], [R2], [R3]
 
 ### Universal Skill Frontmatter
 
-**Definition**: The YAML frontmatter object at the top of `SKILL.md`, validated against a versioned schema (`spec_version`).
+**Definition**: The YAML frontmatter object at the top of `SKILL.md`. The Agent Skills standard requires `name` and `description` and defines a small set of optional fields; this document adds SSOT-oriented extensions for hosts/adapters that support them. [R11]
 
 **Why it matters**:
-- Hosts discover skills primarily through metadata (`name`, `description`) [R2]
-- Tool contracts and safety/permissions must be machine-validated to prevent drift
+- Hosts discover skills primarily through `name`/`description` at startup, then load the full instructions on activation (progressive disclosure). [R11], [R12]
+- If you ship executable scripts/tools, machine-validation (schema/permissions/safety) reduces drift and surprises.
 
-**Sources**: [R2]
+**Sources**: [R11], [R12]
 
 ### Tool Contract
 
@@ -110,7 +112,7 @@ In this repository, responsibilities for applying this specification are assigne
 
 **Definition**: The execution environment that discovers skills and/or tools and mediates how they are loaded, selected, and executed (e.g., Claude API, Claude Code, an MCP client, an OpenAI Responses-based app).
 
-**Sources**: [R1], [R2], [R3], [R4], [R6]
+**Sources**: [R11], [R2], [R3], [R4], [R6], [R12]
 
 ### Adapter (Three-Layer Model)
 
@@ -121,13 +123,13 @@ In this repository, responsibilities for applying this specification are assigne
 2. **Adapter**: host-specific mapping and enforcement
 3. **Implementation**: executable code and resources
 
-**Sources**: [R1], [R4]
+**Sources**: [R11], [R4]
 
 ### Progressive Disclosure
 
 **Definition**: A loading strategy where hosts ingest **metadata first**, then load the body/resources only when a skill is relevant.
 
-**Sources**: [R1], [R2]
+**Sources**: [R11], [R12]
 
 ### Compatibility Level
 
@@ -166,9 +168,10 @@ Recommended (OPTIONAL) structure:
 ```text
 <skill_dir>/
 ├── SKILL.md
-├── tools.json                # Optional derived artifact (see Tool Source Priority)
 ├── scripts/                  # Optional executable implementations
-├── templates/                # Optional templates/resources
+├── references/               # Optional documentation (progressive disclosure)
+├── assets/                   # Optional templates/resources
+├── tools.json                # Optional derived artifact (see Tool Source Priority)
 ├── tests/                    # Optional tests
 └── README.md                 # Optional human-oriented overview
 ```
@@ -183,31 +186,34 @@ Path rules:
 - Frontmatter MUST be valid YAML and parse into a single mapping/object.
 - The Markdown body MUST be treated as model-facing instructions and MUST NOT rely on host-specific implementation details unless placed under `host_overrides`.
 
-#### 3) Universal Skill Frontmatter Schema (MUST)
+#### 3) `SKILL.md` Frontmatter (MUST)
 
-The frontmatter MUST include these fields:
+The frontmatter MUST include these fields (Agent Skills standard): [R11]
 
-- `spec_version` (string): Universal spec version for the frontmatter schema (e.g., `"2.1"`).
-- `name` (string): skill identifier.
-- `description` (string): human/model-readable description including “when to use”.
-- `version` (string): skill package version (semantic versioning).
+- `name` (string): skill identifier; MUST match the parent directory name.
+- `description` (string): description of what the skill does and when to use it.
 
-To maximize portability, `name` and `description` MUST satisfy the Claude API constraints:
-- `name` MUST be 1–64 characters and match `^[a-z0-9-]+$` and MUST NOT include XML tags or host-reserved words. [R2]
-- `description` MUST be non-empty, ≤1024 characters, and MUST NOT include XML tags. [R2]
+The frontmatter MAY include these optional standard fields: [R11]
 
-Additional recommended fields (OPTIONAL but strongly recommended for governance):
-- `tags`: string array for cataloging/search
-- `when_to_use`: trigger metadata for deterministic selection
-- `tools`: tool definitions (canonical)
-- `permissions`: least-privilege declaration
-- `safety`: PII/redaction/confirmation constraints
-- `secrets`: required env vars (declarative)
-- `depends_on`: declared skill/tool dependencies (host-mediated composition)
-- `provenance`: supply-chain metadata (repo/commit/review)
-- `host_overrides`: host-specific overlay configuration
-- `evaluation`: smoke tests, fixtures, metrics hints
-- `extensions`: free-form extension map (`x_*` or custom blocks)
+- `license` (string): license name or reference to a bundled license file.
+- `compatibility` (string): environment requirements (intended product, system packages, network access, etc.), 1–500 characters if provided.
+- `metadata` (object): arbitrary key-value mapping (string values recommended) for additional metadata (e.g., `short-description`, `author`, `version`). [R11], [R12]
+- `allowed-tools` (string): space-delimited list of pre-approved tools the skill may use (experimental; support may vary).
+
+Portability constraints (baseline): [R11]
+- `name` MUST be 1–64 characters, lowercase alphanumeric + hyphens, MUST NOT start or end with `-`, MUST NOT contain consecutive hyphens (`--`), and MUST match the parent directory name.
+- `description` MUST be 1–1024 characters and SHOULD include both what the skill does and when to use it (with keywords that help matching).
+
+Host notes:
+- Claude API additionally forbids XML tags and reserved words in `name`/`description`. [R2]
+- Codex loads `name`/`description` at startup and can activate skills explicitly (`/skills` or by typing `$` to mention a skill) or implicitly when the task matches the description. [R12]
+
+Extensions (OPTIONAL; SSOT-oriented):
+- Fields beyond the Agent Skills standard MAY be ignored or rejected by some clients; for maximum compatibility, store extra simple metadata under `metadata`. [R11]
+- Common SSOT extensions include:
+  - `spec_version`: this document’s schema version (e.g., `"2.1"`).
+  - `version`: a skill package version (semantic versioning). [R8]
+  - `tags`, `when_to_use`, `tools`, `permissions`, `safety`, `secrets`, `depends_on`, `provenance`, `host_overrides`, `evaluation`, `extensions`.
 
 Reserved host identifiers (RECOMMENDED):
 - `claude-api`
@@ -216,9 +222,9 @@ Reserved host identifiers (RECOMMENDED):
 - `openai-responses`
 - `codex-cli`
 
-#### 4) Tool Definition (MUST)
+#### 4) Tool Definition (OPTIONAL; Normative if present)
 
-Tools MUST be declared under `tools` in `SKILL.md` frontmatter.
+If a skill declares tools, it MUST declare them under `tools` in `SKILL.md` frontmatter.
 
 Canonical tool fields:
 
@@ -246,7 +252,7 @@ tools:
 ```
 
 Tool naming constraints (portability baseline):
-- `tools[].name` MUST satisfy the same constraints as `name` (1–64 chars, `^[a-z0-9-]+$`). [R2]
+- `tools[].name` MUST be 1–64 characters, lowercase alphanumeric + hyphens, MUST NOT start or end with `-`, and MUST NOT contain consecutive hyphens (`--`). [R11]
 
 ##### Tool Handler Signature (RECOMMENDED)
 
@@ -561,12 +567,24 @@ Mapping table (tools):
 #### Host Profile: OpenAI Codex CLI
 
 **Facts**:
-- Codex CLI configuration is located at `~/.codex/config.toml`. [R6]
-- Codex CLI provides an approval/policy model (e.g., execpolicy rules) to gate risky commands. [R6]
+- Codex skills build on the open Agent Skills standard (`SKILL.md` + YAML frontmatter + Markdown instructions). [R11], [R12]
+- Skills are available in the Codex CLI and IDE extensions. [R12]
+- Codex discovers skills from repo/user/admin/system scopes; higher-precedence scopes overwrite lower-precedence skills with the same `name`: [R12]
+  - `REPO`: `$CWD/.codex/skills`
+  - `REPO`: `$CWD/../.codex/skills`
+  - `REPO`: `$REPO_ROOT/.codex/skills`
+  - `USER`: `$CODEX_HOME/skills` (default: `~/.codex/skills`)
+  - `ADMIN`: `/etc/codex/skills`
+  - `SYSTEM`: bundled with Codex
+- Codex loads each skill’s `name` and `description` at startup and activates skills explicitly (`/skills` or `$` skill mentions) or implicitly when the task matches the description. [R12]
+- Codex web and iOS do not support explicit invocation yet (repo skills can still be used via prompting). [R12]
+- Codex CLI configuration is located at `~/.codex/config.toml` and includes an approval/policy model to gate risky commands. [R6]
 - Codex is available as both a local CLI and a hosted cloud surface; filesystem and sandbox assumptions differ between them. [R9], [R10]
 
 **Implications**:
-- Treat Codex CLI as a host that can run adapters and connect to MCP; do not assume native Skill discovery unless explicitly supported by the current Codex version.
+- Prefer checking repo skills into `.codex/skills/` and use scope precedence intentionally (e.g., narrow, subfolder-specific overrides in `$CWD/.codex/skills`). [R12]
+- Keep `name` stable and directory-matched; keep `description` keyword-rich for activation. Consider `metadata.short-description` for user-facing summaries. [R11], [R12]
+- Assume risky operations may be gated by approvals/execpolicy; design scripts/tools to support dry-runs and explicit user confirmation.
 
 ---
 
@@ -575,8 +593,9 @@ Mapping table (tools):
 ### Universal MUST Checklist
 
 - [ ] `SKILL.md` exists at the skill root and begins with YAML frontmatter.
-- [ ] Frontmatter includes `spec_version`, `name`, `description`, `version`.
-- [ ] `name`/`tools[].name` follow portability baseline (`^[a-z0-9-]+$`, ≤64 chars). [R2]
+- [ ] Frontmatter includes `name` and `description` (Agent Skills standard). [R11]
+- [ ] `name` matches the skill directory name and follows the portability baseline (≤64 chars, lowercase alphanumeric + hyphens, no leading/trailing `-`, no `--`). [R11]
+- [ ] If `tools` are present, `tools[].name` follows the same portability baseline. [R11]
 - [ ] Tool schemas are valid JSON Schema (2020-12) and `input_schema.type` is `object`. [R7]
 - [ ] Each object schema sets `additionalProperties: false` when targeting strict schema enforcement. [R5]
 - [ ] Permissions are least-privilege and default-deny; network is explicitly empty when required.
@@ -589,7 +608,7 @@ Mapping table (tools):
 - [ ] **Claude Code**: Skill folder is placed under `.claude/skills/` or `~/.claude/skills/`. [R3]
 - [ ] **MCP**: Tool schema mapping uses `inputSchema` and preserves names/descriptions. [R4]
 - [ ] **OpenAI strict**: Schemas are conservative and deny unknown fields (`additionalProperties: false`). [R5]
-- [ ] **Codex CLI**: risky operations are gated by approvals/execpolicy. [R6]
+- [ ] **Codex CLI**: skills are discovered by scope precedence; avoid accidental name collisions unless overriding intentionally; risky operations are gated by approvals/execpolicy. [R12], [R6]
 
 ---
 
@@ -643,6 +662,7 @@ Mapping table (tools):
 ### Validation (Recommended)
 
 - Validate frontmatter against the embedded JSON Schema (Appendix A).
+- For baseline Agent Skills validation, use the reference library: `skills-ref validate <skill_dir>`. [R11]
 - If `tools.json` is present, validate it against the embedded JSON Schema (Appendix B).
 - Validate tool schemas against JSON Schema 2020-12 (static) and host-specific subsets (Claude/OpenAI strict).
 - Run smoke tests declared in `evaluation.smoke_tests` (if present).
@@ -660,14 +680,32 @@ pdf-processing/
     └── pdf.py
 ```
 
-### Example: `SKILL.md` (Minimal, Portable)
+### Example: `SKILL.md` (Minimal, Agent Skills Standard)
 
 ```markdown
 ---
-spec_version: "2.1"
+name: pdf-processing
+description: Extract text and tables from PDF files. Use when the user mentions PDFs, OCR, forms, or document extraction.
+metadata:
+  short-description: PDF extraction workflows
+  version: "1.0.0"
+license: Apache-2.0
+---
+
+# PDF Processing Skill
+
+Use this skill when the user needs PDF extraction, OCR guidance, or form/document workflows.
+```
+
+### Example: `SKILL.md` (Extended, Tool-Backed; SSOT Extensions)
+
+```markdown
+---
 name: pdf-processing
 description: Extract text from PDFs; use when PDFs or OCR are mentioned.
-version: 1.0.0
+metadata:
+  ssot-spec-version: "2.1"
+  version: "1.0.0"
 when_to_use:
   mentions: ["pdf", "ocr", "scan"]
   file_types: [".pdf"]
@@ -716,14 +754,18 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Universal Skill Frontmatter (spec_version 2.1)",
+  "title": "Skill Frontmatter (Agent Skills + SSOT Extensions)",
   "type": "object",
-  "required": ["spec_version", "name", "description", "version"],
+  "required": ["name", "description"],
   "additionalProperties": false,
   "properties": {
     "spec_version": { "type": "string", "pattern": "^2\\\\.[0-9]+$" },
-    "name": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[a-z0-9-]+$" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^(?!.*--)[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$" },
     "description": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "license": { "type": "string" },
+    "compatibility": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "metadata": { "type": "object", "additionalProperties": { "type": "string" } },
+    "allowed-tools": { "type": "string" },
     "version": { "type": "string", "pattern": "^(0|[1-9]\\\\d*)\\\\.(0|[1-9]\\\\d*)\\\\.(0|[1-9]\\\\d*)(?:-[0-9A-Za-z.-]+)?(?:\\\\+[0-9A-Za-z.-]+)?$" },
     "tags": { "type": "array", "items": { "type": "string" } },
     "when_to_use": {
@@ -815,7 +857,7 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
       "additionalProperties": false,
       "required": ["name", "description", "input_schema", "implementation"],
       "properties": {
-        "name": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[a-z0-9-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^(?!.*--)[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$" },
         "description": { "type": "string", "minLength": 1, "maxLength": 1024 },
         "input_schema": { "type": "object" },
         "output_schema": { "type": "object" },
@@ -869,7 +911,7 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
       "additionalProperties": false,
       "required": ["name", "description", "input_schema", "implementation"],
       "properties": {
-        "name": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[a-z0-9-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^(?!.*--)[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$" },
         "description": { "type": "string", "minLength": 1, "maxLength": 1024 },
         "input_schema": { "type": "object" },
         "output_schema": { "type": "object" },
@@ -912,7 +954,8 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 
 ## Update Log
 
-- 2025-12-17 docs(skill): Rebranded to SpeSan and performed final content check. (Author: SpeSan)
+- 2025-12-20T08:57:25Z docs(skill): Added agentskills.io and OpenAI Codex Skills as primary sources; aligned baseline frontmatter to the Agent Skills standard; updated Codex host profile, examples, and schema accordingly. (Author: SpeSan)
+- 2025-12-17T14:02:59Z docs(skill): Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - 2025-12-17T00:00:00Z docs(skill): Major rewrite for 2025 portability: add explicit Host Profiles (Claude API/Code, MCP, OpenAI strict, Codex CLI), fix broken examples by switching to runnable-minimal/pseudocode-only, define tool source priority, normalize runtime/entrypoint rules, add machine-readable frontmatter/tools.json schemas. (Author: SpeSan)
 - 2025-12-09T00:00:00Z docs(skill): Updated specification to v2.0 (Unified Universal). Adopted `SKILL.md` as canonical manifest. Deprecated `skill.yaml` in favor of frontmatter + `tools.json`. (Author: SpeSan)
 - 2025-11-24T00:00:00Z docs(skill): Fixed Update Log date inconsistencies. (Author: SpeSan)
@@ -930,6 +973,9 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 - [CODE_MCP.md](./CODE_MCP.md) – Running code through MCP with strong isolation patterns
 
 ### External References
+- Agent Skills (official; specification): https://agentskills.io/ (spec: https://agentskills.io/specification)
+- OpenAI Codex Agent Skills: https://developers.openai.com/codex/skills/
+- Agent Skills reference library (`skills-ref`): https://github.com/agentskills/agentskills/tree/main/skills-ref
 - Claude Skills overview: https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview
 - Claude API Skills guide: https://platform.claude.com/docs/en/build-with-claude/skills-guide
 - Claude Code Skills: https://code.claude.com/docs/en/skills
@@ -944,6 +990,8 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 ## References
 
 ### Normative / Primary Sources
+- [R11] Agent Skills. "Specification." https://agentskills.io/specification (site: https://agentskills.io/; retrieved 2025-12-20)
+- [R12] OpenAI. "Agent Skills (Codex)." https://developers.openai.com/codex/skills/ (retrieved 2025-12-20)
 - [R1] Anthropic. "Agent Skills Overview." https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview (retrieved 2025-12-17)
 - [R2] Anthropic. "Use Skills with the Claude API." https://platform.claude.com/docs/en/build-with-claude/skills-guide (retrieved 2025-12-17)
 - [R3] Anthropic. "Use Skills in Claude Code." https://code.claude.com/docs/en/skills (retrieved 2025-12-17)
