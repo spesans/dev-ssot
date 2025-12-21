@@ -800,7 +800,7 @@ jobs:
 
 ### Anti-pattern: Mixing `pnpm` policy with `npm` examples
 
-**Symptom**: Agents generate `npm ci`/`npm run` while the repo uses `pnpm`, causing CI and local commands to diverge.
+**Symptom**: Agents generate `npm` commands while the repo uses `pnpm`, causing CI and local commands to diverge.
 
 **Solution**: Keep SSOT examples `pnpm`-only and provide a repo-local translation if needed.
 

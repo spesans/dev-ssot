@@ -156,7 +156,7 @@ These rules apply to per-task PLAN files; this spec may use additional Markdown 
 
 - **Prose-first**: Prefer paragraphs and bullet lists; avoid tables and HTML.
 - **Checklists**: Use checkboxes only in `Progress`. Use bullets elsewhere.
-- **Code blocks**: Avoid nested fences; keep snippets short; prefer inline commands like `npm test`.
+- **Code blocks**: Avoid nested fences; keep snippets short; prefer inline commands like `pnpm test`.
 - **External links**: Do not place execution-critical external URLs in the plan body; if research is required, snapshot the needed content into the plan with timestamp + source URL. Local URLs used only for validation (e.g., `http://localhost:3000/...`) are allowed.
 
 ### Profile: Repo-Native Mode (`repo-native`) (MAY)
@@ -437,7 +437,7 @@ Run the Validation & Acceptance commands. Fix gaps. Update Outcomes.
 ## Handoff Summary
 Timestamp: 2025-11-22T16:00:00Z
 Status: IN_PROGRESS
-Next Action: Run `npm test` and fix the failing OAuth callback test.
+Next Action: Run `pnpm test` and fix the failing OAuth callback test.
 
 What’s done:
 - Implemented OAuth callback route and session creation.
@@ -450,7 +450,7 @@ Blockers/risks:
 
 Evidence pointers:
 - `src/auth/oauth.ts` updated
-- Command: `npm test tests/auth/oauth.test.ts` (last run: 2025-11-22T15:40:00Z, failing)
+- Command: `pnpm test -- tests/auth/oauth.test.ts` (last run: 2025-11-22T15:40:00Z, failing)
 ```
 
 **Key Principles**:
@@ -492,7 +492,7 @@ Evidence pointers:
   - `migrations/001_create_notifications.sql`
   - `src/models/Notification.ts`
 - Verify:
-  - Run `npm test tests/models/notification.test.ts`
+  - Run `pnpm test -- tests/models/notification.test.ts`
   - Expected: tests pass and migration applies cleanly
 
 ### Milestone 2: API Endpoint
@@ -602,7 +602,7 @@ locks:
 **Implementation**:
 
 ```markdown
-- 2025-11-22T15:40:00Z - Ran `npm test tests/auth/oauth.test.ts` (cwd: repo root) -> FAIL
+- 2025-11-22T15:40:00Z - Ran `pnpm test -- tests/auth/oauth.test.ts` (cwd: repo root) -> FAIL
   Evidence: output excerpt: "Expected 302, got 500"
 ```
 
