@@ -4,7 +4,7 @@ slug: agents-readme
 summary: "Guide for implementing README and AGENTS documentation patterns"
 type: guide
 tags: [topic, ai-first, documentation, agents, readme, repository-structure]
-last_updated: 2025-12-17
+last_updated: 2025-12-21
 ---
 
 # README & AGENTS Patterns
@@ -73,7 +73,7 @@ last_updated: 2025-12-17
   - Agent-specific operational instructions (belongs in `AGENTS.md`)
   - Low-level implementation details (belongs in code comments)
 
-**Authoritative Source**: [GitHub README Documentation](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
+**Authoritative Source**: [GitHub README Documentation](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) [R3]
 
 ### AGENTS.md
 
@@ -81,6 +81,7 @@ last_updated: 2025-12-17
 
 **Notes**:
 - No required fields. `AGENTS.md` is standard Markdown; use any headings you like.
+- GitHub Flavored Markdown is the portable baseline for cross-tool rendering. [R5]
 - Prefer **short, actionable instructions** over long prose. Use links (“pointer pattern”) to deeper docs.
 - Commands in `AGENTS.md` **MUST** be copy-paste runnable in the repo as written (or explicitly marked as placeholders).
 - `AGENTS.md` is about **how to work on the repo**, not about describing hypothetical agents.
@@ -95,8 +96,8 @@ last_updated: 2025-12-17
 - Context links (README, SSOT topics, architecture docs)
 
 **Authoritative Sources**:
-- https://agents.md
-- https://github.com/agentsmd/agents.md
+- https://agents.md [R1]
+- https://github.com/agentsmd/agents.md [R2]
 
 **Ecosystem & governance (signals, not requirements)**:
 - Adoption signal: agents.md tracks 60k+ OSS repos via GitHub code search: https://github.com/search?q=path%3AAGENTS.md+NOT+is%3Afork+NOT+is%3Aarchived&type=code
@@ -523,7 +524,7 @@ Runtime agent registry (optional):
 
 ### Tooling / Platform Notes (GitHub Copilot)
 
-GitHub Copilot supports its own instruction files in addition to `AGENTS.md`:
+GitHub Copilot supports its own instruction files in addition to `AGENTS.md`: [R4]
 - Repo-wide: `.github/copilot-instructions.md`
 - Path-scoped: `.github/copilot-instructions/**/*.instructions.md`
 
@@ -569,22 +570,29 @@ jobs:
   markdown:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout (pinned)
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - name: Lint Markdown
-        uses: DavidAnson/markdownlint-cli2-action@v22
+      - name: Set up Python (pinned)
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
-          globs: |
-            **/*.md
+          python-version: "3.11"
+
+      - name: Check section ordering
+        run: python3 check_section_order.py docs
+
+      - name: Check TOC
+        run: python3 check_toc.py docs
+
+      - name: Check references (R#)
+        run: python3 check_references.py docs
 
       - name: Check links
-        uses: lycheeverse/lychee-action@v2
-        with:
-          args: >-
-            --no-progress
-            --exclude-mail
-            --accept 200,206,429
-            .
+        run: python3 check_links.py docs
+
+      # Optional: additional linters
+      # - If you use third-party GitHub Actions for linting/link checking, pin them by full SHA.
+      # - Follow the SSOT secure-actions guidance and document any deviations.
 
       - name: Validate README/AGENTS placement (example policy)
         shell: bash
@@ -647,6 +655,7 @@ jobs:
 
 ## Update Log
 
+- **2025-12-21** – Align validate-docs example with pinned actions and reference linting; add citations and refresh references. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - **2025-12-17** – Major revision to align with the open `AGENTS.md` standard (instructions-first). Re-defined `AGENTS.md` as “README for agents”, moved catalogs to an optional runtime registry extension, added explicit precedence/inheritance rules, refreshed templates (copy-paste safe fences), updated CI examples (`actions/checkout@v6`), and refreshed references. (Author: SpeSan)
 - **2025-11-22** – Refined templates based on peer review. Added `Triggers`, `Implementation`, `Security`, and `Observability` fields to AGENTS.md template. Fixed README.md code block syntax. Clarified document purpose as a guide. (Author: SpeSan)
@@ -674,7 +683,7 @@ jobs:
 
 ### Ecosystem
 
-- `AGENTS.md` (instruction standard) and MCP (tool connectivity standard) are complementary:
+- `AGENTS.md` (instruction standard) and MCP (tool connectivity standard) are complementary: [R6]
   - `AGENTS.md` tells an agent **what to do and how to work in this repo**
   - MCP defines **how an agent connects to tools and data sources**
 
@@ -682,12 +691,12 @@ jobs:
 
 ## References
 
-- [R1] AGENTS.md. *AGENTS.md: A simple, open format for guiding coding agents*. https://agents.md
-- [R2] AGENTS.md GitHub Repository. https://github.com/agentsmd/agents.md
-- [R3] GitHub Documentation. *About READMEs*. https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes
-- [R4] GitHub Documentation. *Using GitHub Copilot CLI* (instruction files). https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli
-- [R5] GitHub Flavored Markdown Specification. https://github.github.com/gfm/
-- [R6] Model Context Protocol. https://modelcontextprotocol.io
+- [R1] AGENTS.md. *AGENTS.md: A simple, open format for guiding coding agents*. https://agents.md (retrieved 2025-12-21)
+- [R2] AGENTS.md GitHub Repository. https://github.com/agentsmd/agents.md (retrieved 2025-12-21)
+- [R3] GitHub Documentation. *About READMEs*. https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes (retrieved 2025-12-21)
+- [R4] GitHub Documentation. *Using GitHub Copilot CLI* (instruction files). https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli (retrieved 2025-12-21)
+- [R5] GitHub Flavored Markdown Specification. https://github.github.com/gfm/ (retrieved 2025-12-21)
+- [R6] Model Context Protocol. https://modelcontextprotocol.io (retrieved 2025-12-21)
 
 ---
 
@@ -696,5 +705,5 @@ jobs:
 **Version**: 2.0.0
 **License**: MIT
 **Maintained By**: Repository documentation team
-**Last Review**: 2025-12-17
-**Next Review Due**: 2026-01-17 (monthly review cycle)
+**Last Review**: 2025-12-21
+**Next Review Due**: 2026-01-21 (monthly review cycle)

@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 import sys
 
-MD_FILES = [Path("README.md"), Path("AGENTS.md")] + sorted(Path("docs").rglob("*.md"))
+MD_FILES = [Path("README.md"), Path("AGENTS.md"), Path("SSOT.md")] + sorted(Path("docs").rglob("*.md"))
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
 FENCE_RE = re.compile(r"^(?P<fence>`{3,}|~{3,})")
 SKIP_PREFIXES = ("http://", "https://", "mailto:", "tel:")

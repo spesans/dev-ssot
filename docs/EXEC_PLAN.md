@@ -4,7 +4,7 @@ slug: exec-plan
 summary: "Model-agnostic execution planning for long-running agent work"
 type: spec
 tags: [topic, ai-first, agent, planning, execution, model-agnostic, mcp, a2a, tool-governance]
-last_updated: 2025-12-17
+last_updated: 2025-12-21
 ---
 
 # Exec Plan
@@ -739,7 +739,7 @@ grep -nE '[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[
 **Acceptance Verifiability Ratio**: % of acceptance criteria with command + expected output (target: 100%). [R1]
 - **Measurement**: checklist audit; linter heuristics
 
-**Living Freshness**: Time since last update to living sections during active execution (target: <15 minutes). [R1]
+**Living Freshness**: Time since last update to living sections during active execution (target: <15 minutes, illustrative; override in your project SSOT/plan policy). [R1]
 - **Measurement**: compare latest timestamps in `Progress`/`Surprises`/`Decision Log`
 
 **Evidence Coverage**: % of key claims backed by evidence pointers (target: high). [R6]
@@ -887,16 +887,30 @@ Next Action: <...>
 
 ```markdown
 ## Inter-Agent Messages
-- 2025-11-22T14:00:00Z - From: <agent> To: <agent>
-  Intent: <REQUEST|NOTIFY|BLOCK>
-  Message: <...>
-  Acceptance/Test: <...>
+- 2025-11-22T14:00:00Z
+  conversation_id: <stable-id>
+  topic: <thread/topic>
+  from: <agent_id>
+  to: <agent_id|group>
+  intent: <REQUEST|NOTIFY|BLOCK|DECISION>
+  blocking: <true|false>
+  ack_required: <true|false>
+  timeout: <ISO-8601 duration, e.g. PT30M>
+  artifact_links:
+    - <relative path to PLAN / evidence / PR / log>
+  message: <...>
+  acceptance_test: <...>
+  status: <SENT|ACKED|DONE|TIMED_OUT|CANCELLED>
+  evidence: <command/file>
 ```
+
+**Rule**: If `blocking: true`, the sender MUST set `ack_required: true` and define `timeout`, and the receiver MUST respond with an ACK or explicit DENY.
 
 ---
 
 ## Update Log
 
+- **2025-12-21** – Expand multi-agent message template and clarify metric targets are illustrative. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - **2025-12-17T00:00:00Z** – Major revision: added non-negotiable requirements, compatibility profiles, MCP/A2A integration, context snapshot guidance, explicit tool governance, stricter timestamp rules, updated schema with Validation vs Concrete Steps split, and copy-pastable templates. (Author: SpeSan)
 - **2025-11-22T00:00:00Z** – Refined specification based on peer review. Added Standard ExecPlan Schema and clarified revision protocols. (Author: SpeSan)
@@ -919,9 +933,9 @@ Next Action: <...>
 - OpenAI Cookbook PLANS.md guidance – Source inspiration for long-running planning patterns. https://cookbook.openai.com/articles/codex_exec_plans
 - MCP specification – Defines tool/data access protocol expectations and safety controls. https://modelcontextprotocol.io/specification/2025-11-25
 - A2A announcement – Background on interoperable agent-to-agent coordination. https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/
-- GitHub MCP registry/allowlist controls – Example of real-world tool governance evolution. https://github.blog/changelog/2025-11-18-internal-mcp-registry-and-allowlist-controls-for-vs-code-stable-in-public-preview/
+- GitHub MCP registry/allowlist controls – Example of real-world tool governance evolution. https://github.blog/changelog/2025-11-18-internal-mcp-registry-and-allowlist-controls-for-vs-code-stable-in-public-preview/ [R4]
 - OpenAI Agents SDK session memory – Practical context engineering patterns for long tasks. https://cookbook.openai.com/examples/agents_sdk/session_memory
-- Claude Code best practices – Additional guidance on instruction files and operational safety. https://www.anthropic.com/engineering/claude-code-best-practices
+- Claude Code best practices – Additional guidance on instruction files and operational safety. https://www.anthropic.com/engineering/claude-code-best-practices [R7]
 
 ---
 

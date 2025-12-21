@@ -9,7 +9,7 @@ document_role: meta_governance
 primary_ssot_path: docs/SSOT.md
 recommended_project_ssot_path: /SSOT.md
 agent_instruction_file: /AGENTS.md
-last_updated: 2025-12-17
+last_updated: 2025-12-21
 ---
 
 # Single Source of Truth (SSOT)
@@ -358,7 +358,7 @@ repository/
 **Intent**: Prevent drift by failing PRs when SSOT rules are violated.
 
 **Security requirement (SHOULD)**:
-- Pin GitHub Actions to a full-length commit SHA and update via Dependabot/Renovate. [R7]
+- Pin GitHub Actions (e.g., `actions/checkout`) to a full-length commit SHA and update via Dependabot/Renovate. [R7] [R15]
 
 **Example**:
 
@@ -383,32 +383,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Security: pin to a full-length commit SHA (recommended by GitHub)
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - name: Validate SSOT structure (minimal)
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          text = Path("docs/SSOT.md").read_text(encoding="utf-8")
-          required = [
-              "## Agent Contract",
-              "## TL;DR",
-              "## Canonical Definitions",
-              "## Core Patterns",
-              "## Decision Checklist",
-              "## Anti-patterns / Pitfalls",
-              "## Evaluation",
-              "## Practical Examples",
-              "## Update Log",
-              "## See Also",
-              "## References",
-          ]
-          missing = [h for h in required if h not in text]
-          if missing:
-              raise SystemExit("Missing required headings: " + ", ".join(missing))
-          if "BCP 14" not in text or "RFC 2119" not in text or "RFC 8174" not in text:
-              raise SystemExit("Missing BCP 14 / RFC references in Normative Keywords section.")
-          print("SSOT structure OK")
-          PY
+      - name: Checkout (pinned)
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Check section ordering
+        run: python3 check_section_order.py docs
+      - name: Check TOC
+        run: python3 check_toc.py docs
+      - name: Check references (R#)
+        run: python3 check_references.py docs
+      - name: Check links
+        run: python3 check_links.py docs
 ```
 
 **Trade-offs**:
@@ -490,6 +474,27 @@ jobs:
 
 ### Agent Telemetry (Implementable)
 
+#### Cross-Document Telemetry Keys (Minimum)
+
+To enable reproducibility and auditability across **ExecPlans**, **Skills**, and **MCP tool runs**, implementations MUST emit the following minimum correlation keys when applicable:
+
+**MUST**
+- `trace_id`: Correlates a multi-step workflow across plans, skills, and tool runs.
+- `run_id`: Identifies a single execution attempt within a trace.
+- `artifact_id` or `artifact_path`: Points to evidence (log file, JSON output, PLAN path).
+- `ssot_document_id`: The SSOT document that governed the run (e.g., `docs/SSOT.md`).
+- `ssot_commit`: Git commit SHA of the SSOT version in effect.
+- `approval_state`: `NOT_REQUIRED|PENDING|APPROVED|DENIED`.
+
+**SHOULD**
+- `tool_name` / `tool_version`
+- `sandbox_image` / `runner_id`
+- `input_digest` / `output_digest`
+- `skill_id` / `skill_version` / `skill_source_commit` (when a skill is involved)
+
+**Notes**
+- Field names are intentionally stable across docs. If another doc uses different names, adapters SHOULD map them here.
+
 **Collection points (informative)**:
 - PR comments (structured block)
 - CI artifacts (`telemetry/*.json`)
@@ -555,6 +560,7 @@ jobs:
 
 ## Update Log
 
+- 2025-12-21 docs(ssot): Add cross-document telemetry keys, update CI validation example with reference linting, and refresh OpenAPI normative reference + retrieved dates. (Author: SpeSan)
 - 2025-12-17 Docs(ssot): Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - 2025-12-17T11:46:50Z docs(ssot): Refresh for 2025: resolve placement ambiguity, adopt BCP 14, modernize CI example (actions/checkout v6 + SHA pinning), clarify Data Contracts (OpenAPI 3.1 / JSON Schema), add deterministic agent templates. (Author: SpeSan)
 - 2025-11-24T00:00:00Z docs(ssot): Metadata refresh and minor clarifications. (Author: SpeSan)
@@ -567,13 +573,13 @@ jobs:
 ## See Also
 
 ### Prerequisites
-- [BCP 14 / RFC 2119 + RFC 8174](https://datatracker.ietf.org/doc/rfc8174/) – Normative keyword interpretation
-- [Secure use of GitHub Actions](https://docs.github.com/en/actions/reference/security/secure-use) – Supply chain hardening and pinning guidance
-- [OpenAPI 3.1 release note](https://www.openapis.org/blog/2021/02/18/openapi-specification-3-1-released) – OpenAPI 3.1 and JSON Schema alignment
-- [Docs as Code](https://www.writethedocs.org/guide/docs-as-code.html) – Treat documentation as an engineering artifact
-- [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow) – Lightweight branching model suitable for frequent SSOT updates
-- [Trunk-based development](https://trunkbaseddevelopment.com/) – Alternative branching model optimized for small, frequent merges
-- [A successful Git branching model (Git Flow)](https://nvie.com/posts/a-successful-git-branching-model/) – Historical reference; may be less suitable for high-frequency SSOT changes
+- [BCP 14 / RFC 2119 + RFC 8174](https://datatracker.ietf.org/doc/rfc8174/) – Normative keyword interpretation [R1] [R2]
+- [Secure use of GitHub Actions](https://docs.github.com/en/actions/reference/security/secure-use) – Supply chain hardening and pinning guidance [R7]
+- [OpenAPI 3.1 specification](https://spec.openapis.org/oas/v3.1.0) – OpenAPI 3.1 and JSON Schema alignment [R3]
+- [Docs as Code](https://www.writethedocs.org/guide/docs-as-code.html) – Treat documentation as an engineering artifact [R9]
+- [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow) – Lightweight branching model suitable for frequent SSOT updates [R11]
+- [Trunk-based development](https://trunkbaseddevelopment.com/) – Alternative branching model optimized for small, frequent merges [R12]
+- [A successful Git branching model (Git Flow)](https://nvie.com/posts/a-successful-git-branching-model/) – Historical reference; may be less suitable for high-frequency SSOT changes [R13]
 
 ### Related Topics (in-repo)
 - [README_AGENTS.md](./README_AGENTS.md) – How SSOT supports the agent ecosystem
@@ -586,25 +592,25 @@ jobs:
 ## References
 
 ### Normative References
-- [R1] IETF. RFC 2119: "Key words for use in RFCs to Indicate Requirement Levels." https://datatracker.ietf.org/doc/rfc2119/
-- [R2] IETF. RFC 8174: "Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words." https://datatracker.ietf.org/doc/rfc8174/
-- [R3] OpenAPI Initiative. "OpenAPI Specification 3.1.0 Released." https://www.openapis.org/blog/2021/02/18/openapi-specification-3-1-released
-- [R4] JSON Schema. "Draft 2020-12." https://json-schema.org/draft/2020-12/json-schema-core.html
-- [R5] OpenAI. "Custom instructions with AGENTS.md." https://developers.openai.com/codex/guides/agents-md/
-- [R6] agents.md. "AGENTS.md." https://agents.md/
-- [R7] GitHub Docs. "Secure use reference." https://docs.github.com/en/actions/reference/security/secure-use
+- [R1] IETF. RFC 2119: "Key words for use in RFCs to Indicate Requirement Levels." https://datatracker.ietf.org/doc/rfc2119/ (retrieved 2025-12-21)
+- [R2] IETF. RFC 8174: "Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words." https://datatracker.ietf.org/doc/rfc8174/ (retrieved 2025-12-21)
+- [R3] OpenAPI Initiative. "OpenAPI Specification 3.1.0." https://spec.openapis.org/oas/v3.1.0 (retrieved 2025-12-21)
+- [R4] JSON Schema. "Draft 2020-12." https://json-schema.org/draft/2020-12/json-schema-core.html (retrieved 2025-12-21)
+- [R5] OpenAI. "Custom instructions with AGENTS.md." https://developers.openai.com/codex/guides/agents-md/ (retrieved 2025-12-21)
+- [R6] agents.md. "AGENTS.md." https://agents.md/ (retrieved 2025-12-21)
+- [R7] GitHub Docs. "Secure use reference." https://docs.github.com/en/actions/reference/security/secure-use (retrieved 2025-12-21)
 
 ### Informative References
-- [R8] Wikipedia. "Single source of truth." https://en.wikipedia.org/wiki/Single_source_of_truth
-- [R9] Write the Docs. "Docs as Code." https://www.writethedocs.org/guide/docs-as-code.html
-- [R10] Model Context Protocol. "Specification (2025-11-25)." https://modelcontextprotocol.io/specification/2025-11-25
-- [R11] GitHub Docs. "GitHub Flow." https://docs.github.com/en/get-started/using-github/github-flow
-- [R12] Trunk Based Development. https://trunkbaseddevelopment.com/
-- [R13] nvie. "A successful Git branching model." https://nvie.com/posts/a-successful-git-branching-model/
-- [R14] Cursor Docs. "Rules." https://cursor.com/docs/context/rules
-- [R15] GitHub. `actions/checkout`. https://github.com/actions/checkout
-- [R16] GitHub. `openapi-typescript`. https://github.com/openapi-ts/openapi-typescript
-- [R17] GitHub. `json-schema-to-typescript`. https://github.com/bcherny/json-schema-to-typescript
+- [R8] Wikipedia. "Single source of truth." https://en.wikipedia.org/wiki/Single_source_of_truth (retrieved 2025-12-21)
+- [R9] Write the Docs. "Docs as Code." https://www.writethedocs.org/guide/docs-as-code.html (retrieved 2025-12-21)
+- [R10] Model Context Protocol. "Specification (2025-11-25)." https://modelcontextprotocol.io/specification/2025-11-25 (retrieved 2025-12-21)
+- [R11] GitHub Docs. "GitHub Flow." https://docs.github.com/en/get-started/using-github/github-flow (retrieved 2025-12-21)
+- [R12] Trunk Based Development. https://trunkbaseddevelopment.com/ (retrieved 2025-12-21)
+- [R13] nvie. "A successful Git branching model." https://nvie.com/posts/a-successful-git-branching-model/ (retrieved 2025-12-21)
+- [R14] Cursor Docs. "Rules." https://cursor.com/docs/context/rules (retrieved 2025-12-21)
+- [R15] GitHub. `actions/checkout`. https://github.com/actions/checkout (retrieved 2025-12-21)
+- [R16] GitHub. `openapi-typescript`. https://github.com/openapi-ts/openapi-typescript (retrieved 2025-12-21)
+- [R17] GitHub. `json-schema-to-typescript`. https://github.com/bcherny/json-schema-to-typescript (retrieved 2025-12-21)
 
 ---
 
