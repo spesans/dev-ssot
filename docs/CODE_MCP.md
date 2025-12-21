@@ -4,7 +4,7 @@ slug: code-mcp
 summary: "Code MCP guide"
 type: reference
 tags: [topic, ai-first, agent, mcp, code, optimization]
-last_updated: 2025-12-17
+last_updated: 2025-12-21
 ---
 
 # Code MCP
@@ -250,8 +250,32 @@ Model ──► Host Orchestrator ──► Sandbox Runner ──► Wrappers �
   - `stderr` max: **256 KiB**
 - Runner MUST redact secrets/PII in both stdout and stderr before returning to the host.
 
+#### Runner Telemetry Envelope (MUST)
+
+When emitting the single JSON line on stdout, include the following minimum fields:
+
+```json
+{
+  "run_id": "uuid-or-stable-id",
+  "trace_id": "trace-id",
+  "tool_name": "tool-or-script-name",
+  "tool_version": "optional",
+  "input_digest": "sha256:...",
+  "output_digest": "sha256:...",
+  "sandbox_image": "optional-image-id",
+  "duration_ms": 1234,
+  "approval_state": "NOT_REQUIRED",
+  "result": { "ok": true, "data": "..." }
+}
+```
+
+- Logs MUST go to stderr, never stdout.
+- `result` MUST be the only potentially large payload; metadata stays small and stable.
+
+Alignment: use the same key names as `docs/SSOT.md` telemetry keys.
+
 #### Result Contract (MUST)
-The runner’s stdout JSON MUST be shaped as:
+The runner’s `result` field MUST be shaped as:
 
 ```json
 {
@@ -517,7 +541,7 @@ Rules:
 - Authorization improvements (OIDC discovery, incremental scope consent, client ID metadata docs). [R5], [R4]
 - JSON Schema 2020-12 established as default dialect. [R5]
 - Input validation errors should be returned as Tool Execution Errors (not Protocol Errors) to enable model self-correction. [R5]
-- Experimental “tasks” for durable requests. [R5]
+- Experimental “tasks” for durable requests (feature-gated; record `task_id` in evidence/telemetry when used). [R5]
 - Sampling can include tools/toolChoice; `includeContext` values `thisServer`/`allServers` are soft-deprecated in the schema. [R2]
 
 **Compatibility Notes (Recommended Defaults)**:
@@ -528,9 +552,11 @@ Rules:
 | `inputSchema` / `outputSchema` | Required/optional as per MCP; wrapper codegen must support both. |
 | Tool `icons` + naming guidance | Must not break codegen or file naming. |
 | OAuth 2.1 authorization | Prefer broker-managed implementation for HTTP transports. |
-| Experimental `tasks` | Optional; support only if you need durable/polling requests. |
+| Experimental `tasks` | Optional; support only if you need durable/polling requests (feature-gated). |
 
 **Sources**: [R2], [R3], [R4], [R5]
+
+**Note**: MCP explicitly labels `tasks` as experimental in the 2025-11-25 changelog. Treat it as optional and monitor upgrades via Update Log. [R5]
 
 ---
 
@@ -731,11 +757,13 @@ asyncio.run(main())
 
 ```python
 import asyncio
+import hashlib
 import io
 import json
 import sys
 import time
 import traceback
+import uuid
 from contextlib import redirect_stderr, redirect_stdout
 
 STDOUT_MAX = 64 * 1024
@@ -750,9 +778,16 @@ def _truncate(s: str, limit: int) -> str:
         return s
     return s[:limit] + "\n<TRUNCATED>"
 
+def _digest(value: object) -> str:
+    payload = json.dumps(value, separators=(",", ":"), sort_keys=True).encode("utf-8")
+    return f"sha256:{hashlib.sha256(payload).hexdigest()}"
+
 def main() -> None:
     user_code = sys.stdin.read()
     namespace: dict[str, object] = {}
+    input_digest = f"sha256:{hashlib.sha256(user_code.encode('utf-8')).hexdigest()}"
+    run_id = f"run_{uuid.uuid4().hex}"
+    trace_id = f"trace_{uuid.uuid4().hex}"
 
     stdout_buf = io.StringIO()
     stderr_buf = io.StringIO()
@@ -770,14 +805,14 @@ def main() -> None:
 
         data = namespace.get("result", None)
         duration_ms = int((time.monotonic() - started) * 1000)
-        out = {
+        result_payload = {
             "ok": True,
             "data": data,
             "metrics": {"duration_ms": duration_ms},
         }
     except Exception as e:
         duration_ms = int((time.monotonic() - started) * 1000)
-        out = {
+        result_payload = {
             "ok": False,
             "error": {
                 "type": type(e).__name__,
@@ -787,6 +822,20 @@ def main() -> None:
             "metrics": {"duration_ms": duration_ms},
         }
         stderr_buf.write(traceback.format_exc())
+
+    output_digest = _digest(result_payload)
+    out = {
+        "run_id": run_id,
+        "trace_id": trace_id,
+        "tool_name": "python-runner",
+        "tool_version": "reference",
+        "input_digest": input_digest,
+        "output_digest": output_digest,
+        "sandbox_image": None,
+        "duration_ms": duration_ms,
+        "approval_state": "NOT_REQUIRED",
+        "result": result_payload,
+    }
 
     # Enforce size limits (redaction omitted in this reference)
     stdout_s = _truncate(stdout_buf.getvalue(), STDOUT_MAX)
@@ -809,6 +858,7 @@ MCP governance is documented publicly, including stewardship under LF Projects, 
 
 ## Update Log
 
+- **2025-12-21** – Add runner telemetry envelope and clarify experimental tasks handling. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - **2025-12-17** – Major rewrite: added a normative Runtime Contract, aligned wrapper/codegen with MCP 2025-11-25 (`inputSchema`/`outputSchema`, tool results, tool naming, list_changed), removed `docker.sock` guidance, added OAuth 2.1 authorization and governance references. (Author: SpeSan)
 - **2025-11-24** – Fixed Update Log date inconsistencies. (Author: SpeSan)
