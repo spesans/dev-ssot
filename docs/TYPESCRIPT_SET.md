@@ -4,7 +4,7 @@ slug: typescript-standard
 summary: "TypeScript configuration SSOT for all projects"
 type: spec
 tags: [typescript, standards, linting, testing, zod, ssot]
-last_updated: 2025-12-17
+last_updated: 2025-12-21
 ---
 
 # TypeScript Standard Set
@@ -103,10 +103,17 @@ deviation:
 | Package manager | `pnpm` (Corepack) | Examples and CI are `pnpm`-first; no mixed tooling |
 | TypeScript | 5.9+ | Uses `verbatimModuleSyntax`; keep modern module behavior |
 | ESLint | 9.x | Flat config (`eslint.config.*`) is canonical |
-| `typescript-eslint` | 8.x | Use the `typescript-eslint` meta package and typed presets |
-| Prettier | 3.x | Formatting handled by Prettier; ESLint only disables conflicts |
+| `typescript-eslint` | 8.x | Use the `typescript-eslint` meta package and typed presets. [R4] |
+| Prettier | 3.x | Formatting handled by Prettier; ESLint only disables conflicts. [R5] |
 | Zod | 4.x | Required for runtime validation at IO boundaries |
-| Test runner | Vitest (preferred) | Jest allowed only for legacy/migration |
+| Test runner | Vitest (preferred) | Jest allowed only for legacy/migration. [R8] |
+
+### Version Policy (Template)
+- This document’s version numbers are **recommended minimums** and may drift over time.
+- Projects SHOULD pin actual versions in `package.json` (`engines`), `packageManager`, `.nvmrc`, etc.
+- Update cadence: review quarterly (use Node “Active LTS” as the baseline). [R1]
+
+Reference: Node.js release schedule (Active LTS vs Current). https://nodejs.org/en/about/releases/ [R1]
 
 ### Package Manager Policy (MUST)
 
@@ -191,6 +198,8 @@ pnpm add -D typescript @types/node eslint @eslint/js typescript-eslint eslint-co
 **Intent**: Provide an org-wide baseline of strictness and hygiene flags, leaving runtime-specific options to profiles.
 
 #### `tsconfig.base.json` (MUST)
+
+This baseline aligns with the TypeScript TSConfig reference. [R2]
 
 ```jsonc
 {
@@ -852,6 +861,7 @@ async function good(): Promise<void> {
 
 ## Update Log
 
+- **2025-12-21** – Add version policy guidance and align toolchain citations. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 
 - **2025-12-17T00:00:00Z** – Major revision: updated to ESLint v9 flat config, `typescript-eslint` meta package + typed presets, Node 24 + pnpm-first CI, clarified tsconfig profiles (`verbatimModuleSyntax`), added IO boundary type-sanitization pattern, and fixed SSOT self-validation guidance. (Author: SpeSan)
