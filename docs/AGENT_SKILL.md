@@ -4,7 +4,7 @@ slug: agent-skill
 summary: "Skill spec overview"
 type: spec
 tags: [topic, ai-first, agent, skill, specification]
-last_updated: 2025-12-21
+last_updated: 2025-12-25
 ---
 
 # Universal Agent Skill
@@ -58,6 +58,7 @@ In this repository, responsibilities for applying this specification are assigne
   - `REPO`: `$REPO_ROOT/.codex/skills`
   - `USER`: `$CODEX_HOME/skills` (default: `~/.codex/skills`)
   - Skills can be invoked explicitly or implicitly when the task matches the description. [R12]
+- **OpenAI skill catalog**: OpenAI publishes a public skill library at https://github.com/openai/skills with `.system` (preinstalled), `.curated`, and `.experimental` skills; curated/experimental skills are typically installed via `$skill-installer`. [R13]
 - **WATCH_OUT**:
   - Do not ship broken examples (SSOT risk): examples must be runnable-minimal or explicitly “pseudocode”
   - Avoid “runtime: node + .ts entrypoint” unless the host explicitly provides a TypeScript runner (default Node cannot execute TS)
@@ -223,6 +224,7 @@ For maximum portability across hosts, filesystems, and CI tooling, skills SHOULD
 Host notes:
 - Claude API additionally forbids XML tags and reserved words in `name`/`description`. [R2]
 - Codex loads `name`/`description` at startup and can activate skills explicitly (`/skills` or by typing `$` to mention a skill) or implicitly when the task matches the description. [R12]
+- Codex’s public `skill-creator` validator currently accepts only `name`, `description`, `license`, `allowed-tools`, and `metadata` in frontmatter; use `metadata` for extra fields (and expect `compatibility` and other extensions to be rejected by that validator). [R13]
 
 Extensions (OPTIONAL; SSOT-oriented):
 - Fields beyond the Agent Skills standard MAY be ignored or rejected by some clients; for maximum compatibility, store extra simple metadata under `metadata`. [R11]
@@ -597,6 +599,8 @@ Mapping table (tools):
 **Facts**:
 - Codex skills build on the open Agent Skills standard (`SKILL.md` + YAML frontmatter + Markdown instructions). [R11], [R12]
 - Skills are available in the Codex CLI and IDE extensions. [R12]
+- OpenAI maintains a public skills catalog at https://github.com/openai/skills, organized as `skills/.system` (preinstalled), `skills/.curated`, and `skills/.experimental`. [R13]
+- The public `skill-creator` validation script in the catalog enforces a narrow frontmatter key set (`name`, `description`, `license`, `allowed-tools`, `metadata`) and an ASCII-only `name` regex; treat it as a Codex-tooling constraint rather than the universal spec. [R13]
 - Codex discovers skills from multiple scopes; higher-precedence scopes overwrite lower-precedence skills with the same `name`: [R12]
   - `CWD`: `./.codex/skills` (highest; per-working-dir overrides)
   - `PARENT`: a folder above CWD within a git repo (shared-area skills)
@@ -716,6 +720,7 @@ When a skill is executed (explicitly or implicitly), implementations MUST emit:
 
 - Validate frontmatter against the embedded JSON Schema (Appendix A).
 - For baseline Agent Skills validation, use the reference library: `skills-ref validate <skill_dir>`. [R11]
+- For Codex CLI tooling, OpenAI’s `skill-creator` includes a strict frontmatter validator (`quick_validate.py`) that reflects current Codex constraints. [R13]
 - If `tools.json` is present, validate it against the embedded JSON Schema (Appendix B).
 - Validate tool schemas against JSON Schema 2020-12 (static) and host-specific subsets (Claude/OpenAI strict).
 - Run smoke tests declared in `evaluation.smoke_tests` (if present).
@@ -1007,6 +1012,7 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 
 ## Update Log
 
+- 2025-12-25T13:44:04Z docs(skill): Added OpenAI skills catalog reference; documented Codex catalog structure and current skill-creator validation constraints. (Author: SpeSan)
 - 2025-12-21T00:00:00Z docs(skill): Clarified Unicode vs portable `name` rules, refined Codex skill precedence, added permissions x roots pattern, and added telemetry + host-facts protocols. (Author: SpeSan)
 - 2025-12-20T08:57:25Z docs(skill): Added agentskills.io and OpenAI Codex Skills as primary sources; aligned baseline frontmatter to the Agent Skills standard; updated Codex host profile, examples, and schema accordingly. (Author: SpeSan)
 - 2025-12-17T14:02:59Z docs(skill): Rebranded to SpeSan and performed final content check. (Author: SpeSan)
@@ -1038,6 +1044,7 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 - OpenAI Codex local config: https://developers.openai.com/codex/local-config/
 - OpenAI Codex CLI: https://developers.openai.com/codex/cli/
 - OpenAI Codex Cloud: https://developers.openai.com/codex/cloud/
+- OpenAI Skills catalog: https://github.com/openai/skills
 
 ---
 
@@ -1055,6 +1062,7 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 - [R7] JSON Schema. "Draft 2020-12." https://json-schema.org/draft/2020-12/json-schema-core.html (retrieved 2025-12-17)
 - [R9] OpenAI. "Codex CLI." https://developers.openai.com/codex/cli/ (retrieved 2025-12-17)
 - [R10] OpenAI. "Codex Cloud." https://developers.openai.com/codex/cloud/ (retrieved 2025-12-17)
+- [R13] OpenAI. "Skills (GitHub repository)." https://github.com/openai/skills (retrieved 2025-12-25)
 
 ### Informative References
 - [R8] Semantic Versioning. https://semver.org/ (retrieved 2025-12-17)
