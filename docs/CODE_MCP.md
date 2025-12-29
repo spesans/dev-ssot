@@ -4,7 +4,7 @@ slug: code-mcp
 summary: "Code MCP guide"
 type: reference
 tags: [topic, ai-first, agent, mcp, code, optimization]
-last_updated: 2025-12-21
+last_updated: 2025-12-29
 ---
 
 # Code MCP
@@ -224,14 +224,17 @@ Model ──► Host Orchestrator ──► Sandbox Runner ──► Wrappers �
 **Normative Requirements**:
 
 #### Supported Runtimes (MUST)
-- Python: **3.11+**
-- Node.js: **20+**
+- A Code MCP implementation MUST support at least one sandbox runtime suitable for executing generated code.
+- RECOMMENDED reference runtimes:
+  - Node.js: **20+**
+  - Python: **3.11+**
+- If you support multiple runtimes, they MUST follow the same Runtime Contract (imports, outputs, limits, redaction).
 
 #### Filesystem & Imports (MUST)
 - Working directory MUST be `/workspace`.
-- AI-generated code MUST be able to import wrappers from an always-present, importable path:
-  - Python: `import servers.<server_module>` or `from servers.<server_module> import <tool_fn>`
-  - Node: `import * as <alias> from "./servers/<server_module>/index.js"`
+- For each supported runtime, AI-generated code MUST be able to import wrappers from an always-present, importable path:
+  - Python (if supported): `import servers.<server_module>` or `from servers.<server_module> import <tool_fn>`
+  - Node.js (if supported): `import * as <alias> from "./servers/<server_module>/index.js"`
 - Wrapper package/module layout MUST be stable across runs. If you change layout, update your project SSOT.
 
 #### Naming Rules (MUST)
@@ -858,6 +861,7 @@ MCP governance is documented publicly, including stewardship under LF Projects, 
 
 ## Update Log
 
+- **2025-12-29** – Clarify supported runtime requirements (at least one; Node.js/Python are recommended, not required). (Author: SpeSan)
 - **2025-12-21** – Add runner telemetry envelope and clarify experimental tasks handling. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - **2025-12-17** – Major rewrite: added a normative Runtime Contract, aligned wrapper/codegen with MCP 2025-11-25 (`inputSchema`/`outputSchema`, tool results, tool naming, list_changed), removed `docker.sock` guidance, added OAuth 2.1 authorization and governance references. (Author: SpeSan)

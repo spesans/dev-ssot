@@ -4,7 +4,7 @@ slug: typescript-standard
 summary: "TypeScript configuration SSOT for all projects"
 type: spec
 tags: [typescript, standards, linting, testing, zod, ssot]
-last_updated: 2025-12-21
+last_updated: 2025-12-29
 ---
 
 # TypeScript Standard Set
@@ -289,6 +289,10 @@ This baseline aligns with the TypeScript TSConfig reference. [R2]
   "exclude": ["dist", "node_modules"]
 }
 ```
+
+#### Next.js note (platform-specific extension)
+
+If you are building a **Next.js** app (App Router or Pages Router), treat it as a Web App Profile baseline but apply Next.js-specific deltas (notably `jsx: "preserve"`, the Next TypeScript plugin, and `.next/types` inclusion when applicable). See [`docs/NEXTJS_SET.md`](./NEXTJS_SET.md).
 
 #### Library Profile (Declarations + Exports Discipline)
 
@@ -861,6 +865,7 @@ async function good(): Promise<void> {
 
 ## Update Log
 
+- **2025-12-29** – Add pointer to Next.js Standard Set for Next.js-specific TypeScript deltas. (Author: SpeSan)
 - **2025-12-21** – Add version policy guidance and align toolchain citations. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 

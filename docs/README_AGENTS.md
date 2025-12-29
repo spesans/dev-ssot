@@ -4,7 +4,7 @@ slug: agents-readme
 summary: "Guide for implementing README and AGENTS documentation patterns"
 type: guide
 tags: [topic, ai-first, documentation, agents, readme, repository-structure]
-last_updated: 2025-12-21
+last_updated: 2025-12-29
 ---
 
 # README & AGENTS Patterns
@@ -278,6 +278,7 @@ pnpm run lint
 ## Inherits
 - Parent agent instructions: `../../AGENTS.md`
 - Human overview: `./README.md` (and `../../README.md`)
+- Platform/runtime specifics (if applicable): `../../docs/NEXTJS_SET.md`
 
 ## Local setup
 - Install deps: `<command>`
@@ -655,6 +656,7 @@ jobs:
 
 ## Update Log
 
+- **2025-12-29** – Add pointer to Next.js Standard Set in app-level AGENTS template. (Author: SpeSan)
 - **2025-12-21** – Align validate-docs example with pinned actions and reference linting; add citations and refresh references. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - **2025-12-17** – Major revision to align with the open `AGENTS.md` standard (instructions-first). Re-defined `AGENTS.md` as “README for agents”, moved catalogs to an optional runtime registry extension, added explicit precedence/inheritance rules, refreshed templates (copy-paste safe fences), updated CI examples (`actions/checkout@v6`), and refreshed references. (Author: SpeSan)
@@ -705,5 +707,5 @@ jobs:
 **Version**: 2.0.0
 **License**: MIT
 **Maintained By**: Repository documentation team
-**Last Review**: 2025-12-21
-**Next Review Due**: 2026-01-21 (monthly review cycle)
+**Last Review**: 2025-12-29
+**Next Review Due**: 2026-01-29 (monthly review cycle)
