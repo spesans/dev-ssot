@@ -60,6 +60,7 @@ cp docs/_templates/TOPIC_TEMPLATE.md docs/YOUR_TOPIC.md
 | [**CODE_MCP.md**](./docs/CODE_MCP.md) | Model Context Protocol implementation guide | Reference |
 | [**EXEC_PLAN.md**](./docs/EXEC_PLAN.md) | AI-driven task planning methodology | Spec |
 | [**TYPESCRIPT_SET.md**](./docs/TYPESCRIPT_SET.md) | TypeScript configuration standards | Spec |
+| [**NEXTJS_SET.md**](./docs/NEXTJS_SET.md) | Next.js adoption deltas (frontend app + runtime boundaries) | Spec |
 | [**README_AGENTS.md**](./docs/README_AGENTS.md) | Documentation patterns for AI-First repos | Guide |
 
 ---
@@ -74,6 +75,7 @@ dev-ssot/
 │   ├── CODE_MCP.md                # MCP implementation guide
 │   ├── EXEC_PLAN.md               # ExecPlan methodology
 │   ├── TYPESCRIPT_SET.md          # TypeScript standards
+│   ├── NEXTJS_SET.md              # Next.js deltas (frontend)
 │   ├── README_AGENTS.md           # Documentation patterns
 │   └── _templates/                # Document templates
 │       ├── TOPIC_TEMPLATE.md      # Standard 11-section structure

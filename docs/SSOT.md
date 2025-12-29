@@ -9,7 +9,7 @@ document_role: meta_governance
 primary_ssot_path: docs/SSOT.md
 recommended_project_ssot_path: /SSOT.md
 agent_instruction_file: /AGENTS.md
-last_updated: 2025-12-21
+last_updated: 2025-12-29
 ---
 
 # Single Source of Truth (SSOT)
@@ -27,7 +27,7 @@ last_updated: 2025-12-21
 - **USE_WHEN**:
   - Resolving conflicting definitions found in multiple documents or code
   - Creating or updating canonical definitions, schemas, enums, policies, or workflows
-  - Implementing data contracts (APIs, databases, events) that must be validated
+  - Implementing data contracts (APIs, databases, events, client/server boundaries) that must be validated
   - Auditing for drift between documentation and implementation
 - **DO_NOT_USE_WHEN**:
   - Capturing implementation details that belong in code (comments, ADRs, commit diffs)
@@ -174,7 +174,7 @@ source_refs: [R3, R4]
 changed_in: 2025-12-17T11:46:50Z
 ```
 
-**Definition**: A formal agreement (schema + semantics) defining the structure, format, and constraints of data exchanged between system components (APIs, databases, events).
+**Definition**: A formal agreement (schema + semantics) defining the structure, format, and constraints of data exchanged between system components (APIs, databases, events, client/server boundaries).
 
 **Normative format guidance**:
 - Machine-validated contracts SHOULD be expressed in **OpenAPI 3.1** and/or **JSON Schema (2020-12)** when applicable.
@@ -560,6 +560,7 @@ To enable reproducibility and auditability across **ExecPlans**, **Skills**, and
 
 ## Update Log
 
+- 2025-12-29 docs(ssot): Clarify Data Contract definition to include client/server boundaries. (Author: SpeSan)
 - 2025-12-21 docs(ssot): Add cross-document telemetry keys, update CI validation example with reference linting, and refresh OpenAPI normative reference + retrieved dates. (Author: SpeSan)
 - 2025-12-17 Docs(ssot): Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - 2025-12-17T11:46:50Z docs(ssot): Refresh for 2025: resolve placement ambiguity, adopt BCP 14, modernize CI example (actions/checkout v6 + SHA pinning), clarify Data Contracts (OpenAPI 3.1 / JSON Schema), add deterministic agent templates. (Author: SpeSan)

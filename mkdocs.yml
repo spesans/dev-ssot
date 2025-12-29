@@ -135,6 +135,7 @@ nav:
       - Universal Agent Skill: AGENT_SKILL.md
       - Exec Plan: EXEC_PLAN.md
       - TypeScript Standard Set: TYPESCRIPT_SET.md
+      - Next.js Standard Set: NEXTJS_SET.md
   - Guides:
       - Code MCP: CODE_MCP.md
       - README & AGENTS Patterns: README_AGENTS.md
