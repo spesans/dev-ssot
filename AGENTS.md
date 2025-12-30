@@ -1,186 +1,82 @@
-# Agents Catalog
+---
+title: Agent Instructions (dev-ssot)
+slug: agents-instructions
+summary: "Operational instructions for coding agents in this repository"
+type: policy
+tags: [agents, instructions, ssot, docs]
+last_updated: 2025-12-31
+---
 
-> **Machine-readable catalog of autonomous agents operating in this repository**
+# Agent Instructions (dev-ssot)
+
+This file contains operational instructions for AI coding agents working in this repository.
+
+**Agents Catalog** is maintained separately:
+- Human-readable: `docs/AGENTS_CATALOG.md`
+- Machine-readable: `src/catalog/runtime-agents.yaml`
+
+## Setup
+
+- **Runtime**: Python 3.11 is the CI baseline.
+- **Docs dependencies**:
+  - Install: `python3 -m pip install -r requirements-docs.txt`
+  - Preferred: use the existing `venv/` if present (e.g., `venv/bin/mkdocs`).
+
+## Build
+
+- Build docs (strict): `venv/bin/mkdocs build --strict`
+- Serve docs locally: `venv/bin/mkdocs serve`
+
+## Test / Validate
+
+Run these from repo root:
+
+- `venv/bin/python src/checks/check_fences.py`
+- `venv/bin/python src/checks/check_section_order.py docs`
+- `venv/bin/python src/checks/check_toc.py docs`
+- `venv/bin/python src/checks/check_references.py docs`
+- `venv/bin/python src/checks/check_links.py docs`
+- `venv/bin/python src/checks/check_last_updated.py docs`
+
+## Style
+
+- Write documentation and code in **English**.
+- Keep docs deterministic and machine-verifiable:
+  - Preserve the required section order (see `docs/SSOT.md`).
+  - For SSOT-style docs under `docs/`, update `last_updated`, prepend an `Update Log` entry, and keep `References` consistent.
+
+## Security
+
+- Do not introduce normative/spec meaning changes implicitly.
+  - If a request conflicts with SSOT definitions/contracts/safety constraints, treat it as a change request: propose → confirm → apply (see `docs/SSOT.md`). [R1]
+- Do not paste secrets/PII into docs, plans, or logs.
+
+## PR
+
+- Keep changes minimal and traceable.
+- Prefer small commits and preserve evidence (commands + outputs) for doc validation work.
+
+## Context Links
+
+- Governance: [SSOT.md](./docs/SSOT.md)
+- Planning: [EXEC_PLAN.md](./docs/EXEC_PLAN.md)
+- Patterns: [README_AGENTS.md](./docs/README_AGENTS.md)
+- Templates: [TOPIC_TEMPLATE.md](./docs/_templates/TOPIC_TEMPLATE.md)
+- Agent inventory: [AGENTS_CATALOG.md](./docs/AGENTS_CATALOG.md)
+
+## Update Log
+
+- **2025-12-31** – Move validation scripts and runtime agent inventory under `src/` and update references. (Author: repo-orchestrator)
+- **2025-12-30** – Simplify validation: remove RELATED_TOPICS slug enforcement and remove stub topic pages. (Author: repo-orchestrator)
+- **2025-12-30** – Add additional doc validation checks (fence closure, last_updated/Update Log, RELATED_TOPICS) and ensure CI runs `mkdocs build --strict` on PRs. (Author: repo-orchestrator)
+- **2025-12-30** – Split Agents Catalog into `docs/AGENTS_CATALOG.md` + `catalog/runtime-agents.yaml`; repurposed repo-root `AGENTS.md` as operational instructions. (Author: repo-orchestrator)
+
+## References
+
+- [R1] SpeSan. "SSOT for AI-First Development: SSOT." https://github.com/spesans/dev-ssot/blob/main/docs/SSOT.md (accessed 2025-12-30)
 
 ---
 
-## Primary Directive
-
-All agents operating in this repository must:
-
-1. **Follow SSOT principles** - Reference `docs/SSOT.md` as the authoritative source for definitions
-2. **Maintain the 11-section structure** - All documentation must follow the standard architecture
-3. **Use ISO 8601 timestamps** - All logged entries use `YYYY-MM-DDTHH:MM:SSZ` format
-4. **Preserve traceability** - Document decisions with rationale and evidence
-
----
-
-## Scope
-
-Complete inventory of autonomous agents operating across this repository.
-
----
-
-## Agent List
-
-| ID | Type | Scope | Role |
-|:---|:-----|:------|:-----|
-| `repo-orchestrator` | Manager | Entire repo | Coordinates cross-cutting concerns and architectural consistency |
-| `doc-maintainer` | Specialist | `docs/` | Manages SSOT documentation and validates structure |
-
----
-
-## Agent Definitions
-
-### repo-orchestrator
-
-| Field | Value |
-|:------|:------|
-| **Type** | Manager |
-| **Scope** | Entire repository |
-| **Version** | 1.0.0 |
-
-**Mission**: Coordinate multi-agent workflows, resolve conflicts, and maintain architectural consistency across the repository.
-
-**Triggers**:
-- Manual invocation via CLI
-- Cross-cutting documentation requests
-- Conflict resolution between specialists
-
-**Inputs**:
-- Task requests
-- Agent capability queries
-- Conflict reports
-- Architecture review requests
-
-**Outputs**:
-- Task assignments
-- Resolution decisions
-- Architecture guidance
-- Consistency reports
-
-**Tools**:
-- GitHub API
-- Static analysis tools
-- Documentation validators
-
-**Capabilities**:
-
-| Capability | Level |
-|:-----------|:-----:|
-| Code Generation | ● Full |
-| Testing | ● Full |
-| Deployment | ◐ Partial |
-| Schema Management | ○ None |
-| Review | ● Full |
-
-**Constraints**:
-- Must consult specialists before cross-cutting changes
-- Ensures all documentation follows SSOT principles
-- Cannot modify database schemas directly
-- Requires approval for dependency updates
-
----
-
-### doc-maintainer
-
-| Field | Value |
-|:------|:------|
-| **Type** | Specialist |
-| **Scope** | `docs/` directory and repository root documentation |
-| **Version** | 1.0.0 |
-
-**Mission**: Maintain the Single Source of Truth (SSOT), ensure documentation freshness, and validate structure against templates.
-
-**Triggers**:
-- Changes to `docs/**/*.md`
-- Documentation update requests
-- New feature specifications
-- Policy changes
-
-**Inputs**:
-- Documentation update requests
-- New feature specs
-- Policy changes
-- Template updates
-
-**Outputs**:
-- Updated `.md` files
-- Validation reports
-- Structure compliance reports
-- Freshness audits
-
-**Tools**:
-- Markdown linters
-- Frontmatter validators
-- Git history analysis
-- Link checkers
-
-**Capabilities**:
-
-| Capability | Level |
-|:-----------|:-----:|
-| Code Generation | ○ None |
-| Testing | ○ None |
-| Deployment | ○ None |
-| Schema Management | ● Full |
-| Review | ● Full |
-
-**Constraints**:
-- Must strictly follow the 11-section structure for all topic documents
-- Must verify no duplication exists against `SSOT.md`
-- Must update `last_updated` field on modifications
-- Cannot modify code files outside documentation
-
----
-
-## Agent Capability Matrix
-
-| Agent ID | Code Gen | Testing | Deploy | Schema | Review | Scope |
-|:---------|:--------:|:-------:|:------:|:------:|:------:|:------|
-| `repo-orchestrator` | ● | ● | ◐ | ○ | ● | Global |
-| `doc-maintainer` | ○ | ○ | ○ | ● | ● | `docs/` |
-
-**Legend**:
-- ● Full capability
-- ◐ Partial/assisted capability
-- ○ No capability
-
----
-
-## Routing Rules
-
-### Documentation Requests
-
-```
-Request Type                    → Agent
-─────────────────────────────────────────
-General architecture            → repo-orchestrator
-Cross-cutting concerns          → repo-orchestrator
-Specific SSOT topic             → doc-maintainer
-Template maintenance            → doc-maintainer
-Freshness validation            → doc-maintainer
-```
-
-### Conflict Resolution
-
-When agents have overlapping concerns:
-
-1. **Scope conflict**: Agent with narrower scope takes precedence for its domain
-2. **Priority conflict**: Refer to `repo-orchestrator` for resolution
-3. **Definition conflict**: `SSOT.md` is the authoritative source
-
----
-
-## Context & Navigation
-
-| Resource | Description |
-|:---------|:------------|
-| [Home](./README.md) | Repository overview and human setup instructions |
-| [SSOT.md](./docs/SSOT.md) | Governance guide and canonical definitions |
-| [AGENT_SKILL.md](./docs/AGENT_SKILL.md) | Universal agent skill specification |
-| [EXEC_PLAN.md](./docs/EXEC_PLAN.md) | Task planning methodology |
-
----
-
-*Last Updated: 2025-11-25*
+**Document ID**: `AGENTS.md`
+**Canonical URL**: `https://github.com/spesans/dev-ssot/blob/main/AGENTS.md`
+**License**: MIT

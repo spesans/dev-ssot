@@ -22,14 +22,28 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-docs.txt
+
+      - name: Build site (strict)
+        run: python -m mkdocs build --strict
+
+      - name: Check markdown fences
+        run: python3 src/checks/check_fences.py
+
+      - name: Check last_updated vs Update Log
+        run: python3 src/checks/check_last_updated.py docs
+
       - name: Check section ordering
-        run: python3 check_section_order.py docs
+        run: python3 src/checks/check_section_order.py docs
 
       - name: Check TOC
-        run: python3 check_toc.py docs
+        run: python3 src/checks/check_toc.py docs
 
       - name: Check references (R#)
-        run: python3 check_references.py docs
+        run: python3 src/checks/check_references.py docs
 
       - name: Check links
-        run: python3 check_links.py docs
+        run: python3 src/checks/check_links.py docs

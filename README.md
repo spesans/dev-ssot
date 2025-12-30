@@ -62,6 +62,7 @@ cp docs/_templates/TOPIC_TEMPLATE.md docs/YOUR_TOPIC.md
 | [**TYPESCRIPT_SET.md**](./docs/TYPESCRIPT_SET.md) | TypeScript configuration standards | Spec |
 | [**NEXTJS_SET.md**](./docs/NEXTJS_SET.md) | Next.js adoption deltas (frontend app + runtime boundaries) | Spec |
 | [**README_AGENTS.md**](./docs/README_AGENTS.md) | Documentation patterns for AI-First repos | Guide |
+| [**AGENTS_CATALOG.md**](./docs/AGENTS_CATALOG.md) | Machine-readable runtime agent inventory | Reference |
 
 ---
 
@@ -77,12 +78,25 @@ dev-ssot/
 │   ├── TYPESCRIPT_SET.md          # TypeScript standards
 │   ├── NEXTJS_SET.md              # Next.js deltas (frontend)
 │   ├── README_AGENTS.md           # Documentation patterns
+│   ├── AGENTS_CATALOG.md          # Runtime agent inventory (catalog)
 │   └── _templates/                # Document templates
 │       ├── TOPIC_TEMPLATE.md      # Standard 11-section structure
 │       ├── SECTION_TEMPLATE.md    # Reusable section patterns
 │       └── FRONT_MATTER.md        # Metadata requirements
 │
-├── AGENTS.md                       # Agent catalog for this repo
+├── AGENTS.md                       # Operational instructions for agents
+├── src/                            # Repo tooling (checks, mkdocs, registries)
+│   ├── checks/                     # Documentation validation scripts
+│   │   ├── check_fences.py
+│   │   ├── check_last_updated.py
+│   │   ├── check_links.py
+│   │   ├── check_references.py
+│   │   ├── check_section_order.py
+│   │   └── check_toc.py
+│   ├── mkdocs/
+│   │   └── gen_docs.py             # MkDocs gen-files script
+│   └── catalog/
+│       └── runtime-agents.yaml     # Runtime agent inventory (machine-readable)
 ├── README.md                       # This file
 ├── mkdocs.yml                      # Documentation site config
 └── LICENSE                         # MIT License
@@ -131,7 +145,7 @@ This repository is designed for AI agent consumption. Key points:
 standards:
   - Follow the 11-section structure for all documentation
   - Reference SSOT.md for canonical definitions
-  - Use AGENTS.md for capability routing
+  - Use docs/AGENTS_CATALOG.md for capability routing
 
 priorities:
   - SSOT.md > README.md when definitions conflict
@@ -144,7 +158,7 @@ priorities:
     - Maintain timestamps in ISO 8601 format
 ```
 
-See [AGENTS.md](./AGENTS.md) for the full agent catalog and routing rules.
+See [AGENTS_CATALOG.md](./docs/AGENTS_CATALOG.md) for the full agent catalog and routing rules.
 
 ---
 
@@ -194,4 +208,4 @@ MIT License - See [LICENSE](./LICENSE) for full terms.
 
 ---
 
-**Maintained by**: SpeSan | **Last Updated**: 2025-12-17
+**Maintained by**: SpeSan | **Last Updated**: 2025-12-31

@@ -4,7 +4,7 @@ slug: agents-readme
 summary: "Guide for implementing README and AGENTS documentation patterns"
 type: guide
 tags: [topic, ai-first, documentation, agents, readme, repository-structure]
-last_updated: 2025-12-29
+last_updated: 2025-12-31
 ---
 
 # README & AGENTS Patterns
@@ -49,9 +49,11 @@ last_updated: 2025-12-29
   - Do not document “example” commands that do not exist in the repo.
   - Link out to deeper docs instead of duplicating them.
 - If instructions conflict:
-  1. **Explicit user instructions win**.
-  2. Otherwise, the **most specific instruction file for the edited path wins** (nearest `AGENTS.md`, plus any tool-specific path instructions).
-- If you need a **machine-readable agent inventory**, keep it **out of `AGENTS.md`** (e.g., `catalog/runtime-agents.yaml`) and label it as a repository-specific extension.
+  1. If a user request conflicts with SSOT **definitions/contracts/safety constraints**, treat it as a **spec change request** (propose → confirm → apply). See `docs/SSOT.md`.
+  2. Otherwise, **explicit user instructions win** (within SSOT constraints).
+  3. Otherwise, the **most specific instruction file for the edited path wins** (nearest `AGENTS.md`, plus any tool-specific path instructions).
+- If you need a **machine-readable agent inventory**, keep it **out of `AGENTS.md`** (e.g., `src/catalog/runtime-agents.yaml`) and label it as a repository-specific extension.
+  - Example (this repo): `AGENTS.md` (instructions), `src/catalog/runtime-agents.yaml` (inventory), and `docs/AGENTS_CATALOG.md` (published catalog).
 
 ---
 
@@ -110,7 +112,7 @@ last_updated: 2025-12-29
 
 **Notes**:
 - This is **not** part of the `AGENTS.md` open format.
-- Keep it separate (e.g., `catalog/runtime-agents.yaml`) so `AGENTS.md` stays short and tool-agnostic.
+- Keep it separate (e.g., `src/catalog/runtime-agents.yaml`) so `AGENTS.md` stays short and tool-agnostic.
 - Treat it as a normal SSOT artifact: versioned, reviewed, and validated.
 
 ### Terminology
@@ -144,12 +146,14 @@ last_updated: 2025-12-29
 **Goal**: When instructions conflict, agents must not “average” them. The winner must be deterministic.
 
 **Precedence rules**:
-1. **Explicit user instructions MUST win** over any repository instruction file.
-2. Otherwise, **the most specific instruction for the edited path SHOULD win**, in this order:
+1. **SSOT definitions/contracts/safety constraints MUST NOT be overridden** by instructions (including user requests).
+   - If a user request contradicts the Project SSOT, treat it as a **spec change request** (propose → confirm → apply). See `docs/SSOT.md`.
+2. Otherwise, **explicit user instructions SHOULD win** over repository instruction files (within SSOT constraints).
+3. Otherwise, **the most specific instruction for the edited path SHOULD win**, in this order:
    - Tool-specific path-scoped instructions (if your tool supports them)
    - The nearest `AGENTS.md` in the directory tree that contains the edited file
    - Repo-wide instruction files (root `AGENTS.md`, `.github/*` repo-wide instructions)
-3. `README.md` is for humans; `AGENTS.md` is for agent operations. If both specify the same command, they **MUST** match.
+4. `README.md` is for humans; `AGENTS.md` is for agent operations. If both specify the same command, they **MUST** match.
 
 **Inheritance model**:
 - Child `AGENTS.md` files **inherit** parent intent but should contain **deltas only**.
@@ -309,12 +313,12 @@ pnpm run lint
 
 **Intent**: Keep structured “agent catalogs” out of `AGENTS.md` while still supporting automation.
 
-**Recommended location**: `catalog/runtime-agents.yaml` (or `catalog/agents.yaml`)
+**Recommended location**: `src/catalog/runtime-agents.yaml` (or `src/catalog/agents.yaml`)
 
 **Example**:
 
 ```yaml
-# catalog/runtime-agents.yaml
+# src/catalog/runtime-agents.yaml
 version: 1
 agents:
   - id: billing-worker
@@ -415,7 +419,7 @@ Runtime agent registry (optional):
 - Less useful operational guidance (commands and constraints get buried)
 
 **Remediation steps**:
-1. Move registry content to `catalog/runtime-agents.yaml` (or similar).
+1. Move registry content to `src/catalog/runtime-agents.yaml` (or similar).
 2. Replace `AGENTS.md` with concise “how to work here” instructions.
 3. Add a link from `AGENTS.md` to the registry and mark it as repository-specific.
 
@@ -580,16 +584,16 @@ jobs:
           python-version: "3.11"
 
       - name: Check section ordering
-        run: python3 check_section_order.py docs
+        run: python3 src/checks/check_section_order.py docs
 
       - name: Check TOC
-        run: python3 check_toc.py docs
+        run: python3 src/checks/check_toc.py docs
 
       - name: Check references (R#)
-        run: python3 check_references.py docs
+        run: python3 src/checks/check_references.py docs
 
       - name: Check links
-        run: python3 check_links.py docs
+        run: python3 src/checks/check_links.py docs
 
       # Optional: additional linters
       # - If you use third-party GitHub Actions for linting/link checking, pin them by full SHA.
@@ -646,7 +650,7 @@ jobs:
 
 **Goal**: Align an existing repository that uses `AGENTS.md` as a registry with the open `AGENTS.md` format (instructions-first).
 
-1. **Extract catalogs**: Move any “agent inventory” sections out of `AGENTS.md` into `catalog/runtime-agents.yaml` (or equivalent).
+1. **Extract catalogs**: Move any “agent inventory” sections out of `AGENTS.md` into `src/catalog/runtime-agents.yaml` (or equivalent).
 2. **Rewrite `AGENTS.md`**: Keep only operational instructions (setup/build/test/style/security/PR).
 3. **Add precedence**: Document conflict rules and ensure subdirectory inheritance is delta-only.
 4. **Align tool-specific files**: If using Copilot instructions, make them reference `AGENTS.md` and avoid contradictory rules.
@@ -656,6 +660,8 @@ jobs:
 
 ## Update Log
 
+- **2025-12-31** – Update agent inventory and validation script paths after moving tooling under `src/`. (Author: repo-orchestrator)
+- **2025-12-30** – Align precedence rules with SSOT conflict resolution; add a concrete split example for operational `AGENTS.md` vs agent inventory catalog. (Author: repo-orchestrator)
 - **2025-12-29** – Add pointer to Next.js Standard Set in app-level AGENTS template. (Author: SpeSan)
 - **2025-12-21** – Align validate-docs example with pinned actions and reference linting; add citations and refresh references. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)

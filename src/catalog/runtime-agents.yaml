@@ -1,0 +1,92 @@
+schema_version: 1.0.0
+last_updated: 2025-12-30
+
+agents:
+  - id: repo-orchestrator
+    type: manager
+    scope: entire-repository
+    version: 1.0.0
+    role: Coordinates cross-cutting concerns and architectural consistency across the repository.
+    mission: Coordinate multi-agent workflows, resolve conflicts, and maintain architectural consistency across the repository.
+    triggers:
+      - Manual invocation via CLI
+      - Cross-cutting documentation requests
+      - Conflict resolution between specialists
+    inputs:
+      - Task requests
+      - Agent capability queries
+      - Conflict reports
+      - Architecture review requests
+    outputs:
+      - Task assignments
+      - Resolution decisions
+      - Architecture guidance
+      - Consistency reports
+    tools:
+      - GitHub API
+      - Static analysis tools
+      - Documentation validators
+    capabilities:
+      code_generation: full
+      testing: full
+      deployment: partial
+      schema_management: none
+      review: full
+    constraints:
+      - Must consult specialists before cross-cutting changes
+      - Ensures all documentation follows SSOT principles
+      - Cannot modify database schemas directly
+      - Requires approval for dependency updates
+
+  - id: doc-maintainer
+    type: specialist
+    scope: docs
+    version: 1.0.0
+    role: Maintains SSOT docs and validates structure.
+    mission: Maintain the Single Source of Truth (SSOT), ensure documentation freshness, and validate structure against templates.
+    triggers:
+      - Changes to docs/**/*.md
+      - Documentation update requests
+      - New feature specifications
+      - Policy changes
+    inputs:
+      - Documentation update requests
+      - New feature specs
+      - Policy changes
+      - Template updates
+    outputs:
+      - Updated .md files
+      - Validation reports
+      - Structure compliance reports
+      - Freshness audits
+    tools:
+      - Markdown linters
+      - Frontmatter validators
+      - Git history analysis
+      - Link checkers
+    capabilities:
+      code_generation: none
+      testing: none
+      deployment: none
+      schema_management: full
+      review: full
+    constraints:
+      - Must strictly follow the 11-section structure for all topic documents
+      - Must verify no duplication exists against SSOT.md
+      - Must update last_updated field on modifications
+      - Cannot modify code files outside documentation
+
+routing_rules:
+  documentation_requests:
+    general_architecture: repo-orchestrator
+    cross_cutting_concerns: repo-orchestrator
+    specific_ssot_topic: doc-maintainer
+    template_maintenance: doc-maintainer
+    freshness_validation: doc-maintainer
+
+conflict_resolution:
+  - type_based_precedence: docs/SSOT.md
+  - user_request_conflict_with_ssot: spec_change_request_propose_confirm_apply
+  - scope_conflict: narrower_scope_wins
+  - cross_cutting_conflict: repo-orchestrator_triage
+  - definition_conflict: docs/SSOT.md_is_authoritative

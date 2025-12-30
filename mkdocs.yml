@@ -121,7 +121,7 @@ extra_css:
 plugins:
   - gen-files:
       scripts:
-        - tools/gen_docs.py
+        - src/mkdocs/gen_docs.py
   - search:
       lang: en
       separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
@@ -130,7 +130,8 @@ nav:
   - Home: index.md
   - Getting Started:
       - Single Source of Truth (SSOT): SSOT.md
-      - Agents Catalog: AGENTS.md
+      - Agent Instructions: AGENTS.md
+      - Agents Catalog: AGENTS_CATALOG.md
   - Specifications:
       - Universal Agent Skill: AGENT_SKILL.md
       - Exec Plan: EXEC_PLAN.md

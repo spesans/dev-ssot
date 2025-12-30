@@ -4,7 +4,7 @@ slug: code-mcp
 summary: "Code MCP guide"
 type: reference
 tags: [topic, ai-first, agent, mcp, code, optimization]
-last_updated: 2025-12-29
+last_updated: 2025-12-30
 ---
 
 # Code MCP
@@ -36,7 +36,7 @@ last_updated: 2025-12-29
   - token-optimization
   - agent-skill
 
-In this repository, recommended agents for applying this specification (such as `repo-orchestrator` and `doc-maintainer`) are defined in `AGENTS.md`.
+In this repository, recommended agents for applying this specification (such as `repo-orchestrator` and `doc-maintainer`) are defined in `docs/AGENTS_CATALOG.md`.
 
 ---
 
@@ -861,6 +861,7 @@ MCP governance is documented publicly, including stewardship under LF Projects, 
 
 ## Update Log
 
+- **2025-12-30** – Update agent inventory reference to docs/AGENTS_CATALOG.md after catalog split. (Author: repo-orchestrator)
 - **2025-12-29** – Clarify supported runtime requirements (at least one; Node.js/Python are recommended, not required). (Author: SpeSan)
 - **2025-12-21** – Add runner telemetry envelope and clarify experimental tasks handling. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)

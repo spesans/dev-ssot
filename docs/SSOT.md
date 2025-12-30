@@ -9,7 +9,7 @@ document_role: meta_governance
 primary_ssot_path: docs/SSOT.md
 recommended_project_ssot_path: /SSOT.md
 agent_instruction_file: /AGENTS.md
-last_updated: 2025-12-29
+last_updated: 2025-12-31
 ---
 
 # Single Source of Truth (SSOT)
@@ -386,13 +386,13 @@ jobs:
       - name: Checkout (pinned)
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Check section ordering
-        run: python3 check_section_order.py docs
+        run: python3 src/checks/check_section_order.py docs
       - name: Check TOC
-        run: python3 check_toc.py docs
+        run: python3 src/checks/check_toc.py docs
       - name: Check references (R#)
-        run: python3 check_references.py docs
+        run: python3 src/checks/check_references.py docs
       - name: Check links
-        run: python3 check_links.py docs
+        run: python3 src/checks/check_links.py docs
 ```
 
 **Trade-offs**:
@@ -560,6 +560,7 @@ To enable reproducibility and auditability across **ExecPlans**, **Skills**, and
 
 ## Update Log
 
+- 2025-12-31 docs(ssot): Update validation example paths after moving scripts under src/. (Author: repo-orchestrator)
 - 2025-12-29 docs(ssot): Clarify Data Contract definition to include client/server boundaries. (Author: SpeSan)
 - 2025-12-21 docs(ssot): Add cross-document telemetry keys, update CI validation example with reference linting, and refresh OpenAPI normative reference + retrieved dates. (Author: SpeSan)
 - 2025-12-17 Docs(ssot): Rebranded to SpeSan and performed final content check. (Author: SpeSan)

@@ -4,7 +4,7 @@ slug: agent-skill
 summary: "Skill spec overview"
 type: spec
 tags: [topic, ai-first, agent, skill, specification]
-last_updated: 2025-12-25
+last_updated: 2025-12-30
 ---
 
 # Universal Agent Skill
@@ -36,7 +36,7 @@ last_updated: 2025-12-25
   - exec-plan
   - code-mcp
 
-In this repository, responsibilities for applying this specification are assigned to the `repo-orchestrator` and `doc-maintainer` agents described in `AGENTS.md`.
+In this repository, responsibilities for applying this specification are assigned to the `repo-orchestrator` and `doc-maintainer` agents defined in `docs/AGENTS_CATALOG.md`.
 
 ---
 
@@ -1012,6 +1012,7 @@ Use `extract-text` to extract text. If extraction fails, explain why and suggest
 
 ## Update Log
 
+- 2025-12-30T16:01:58Z docs(skill): Update agent inventory reference to docs/AGENTS_CATALOG.md after catalog split. (Author: repo-orchestrator)
 - 2025-12-25T13:44:04Z docs(skill): Added OpenAI skills catalog reference; documented Codex catalog structure and current skill-creator validation constraints. (Author: SpeSan)
 - 2025-12-21T00:00:00Z docs(skill): Clarified Unicode vs portable `name` rules, refined Codex skill precedence, added permissions x roots pattern, and added telemetry + host-facts protocols. (Author: SpeSan)
 - 2025-12-20T08:57:25Z docs(skill): Added agentskills.io and OpenAI Codex Skills as primary sources; aligned baseline frontmatter to the Agent Skills standard; updated Codex host profile, examples, and schema accordingly. (Author: SpeSan)

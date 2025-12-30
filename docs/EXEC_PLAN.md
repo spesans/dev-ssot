@@ -4,7 +4,7 @@ slug: exec-plan
 summary: "Model-agnostic execution planning for long-running agent work"
 type: spec
 tags: [topic, ai-first, agent, planning, execution, model-agnostic, mcp, a2a, tool-governance]
-last_updated: 2025-12-21
+last_updated: 2025-12-31
 ---
 
 # Exec Plan
@@ -38,7 +38,7 @@ last_updated: 2025-12-21
   - code-mcp
   - agent-skill
 
-In this repository, agents that apply this specification in practice (for example `repo-orchestrator` and `doc-maintainer`) are defined in `AGENTS.md`.
+In this repository, operational agent instructions live in repo-root `AGENTS.md`. The active agent inventory is maintained in `docs/AGENTS_CATALOG.md` (human-readable) and `src/catalog/runtime-agents.yaml` (machine-readable).
 
 ### Decision Tree (MUST)
 
@@ -910,6 +910,8 @@ Next Action: <...>
 
 ## Update Log
 
+- **2025-12-31** – Update agent inventory path after moving registries under `src/`. (Author: repo-orchestrator)
+- **2025-12-30** – Update agent catalog references after splitting operational instructions vs inventory. (Author: repo-orchestrator)
 - **2025-12-21** – Expand multi-agent message template and clarify metric targets are illustrative. (Author: SpeSan)
 - **2025-12-17** – Rebranded to SpeSan and performed final content check. (Author: SpeSan)
 - **2025-12-17T00:00:00Z** – Major revision: added non-negotiable requirements, compatibility profiles, MCP/A2A integration, context snapshot guidance, explicit tool governance, stricter timestamp rules, updated schema with Validation vs Concrete Steps split, and copy-pastable templates. (Author: SpeSan)
